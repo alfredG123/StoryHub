@@ -1,7 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using Web.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ProgramDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("LocalhostConnection")
+    ));
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(120);
+});
+builder.Services.AddControllersWithViews().AddSessionStateTempDataProvider();
 
 var app = builder.Build();
 
@@ -19,6 +33,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

@@ -2,15 +2,15 @@
 
 namespace Web.Models
 {
-    public class RegionModel : BaseModel
+    public class CustomFieldModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }
 
         [Required]
-        public string Name { get; set; } = string.Empty;
+        public string FieldName { get; set; } = string.Empty;
 
         [Required]
-        public string Description { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
     }
 }

@@ -12,5 +12,8 @@ namespace Web.Models
 
         [Required]
         int CharacterID { get; set; } = 0;
+
+        [Required]
+        string Description { get; set; } = string.Empty;
     }
 }

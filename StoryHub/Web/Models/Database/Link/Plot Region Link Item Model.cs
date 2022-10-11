@@ -12,5 +12,8 @@ namespace Web.Models
 
         [Required]
         int RegionID { get; set; } = 0;
+
+        [Required]
+        string Description { get; set; } = string.Empty;
     }
 }

@@ -6,5 +6,20 @@ namespace Web.Models
     {
         [Key]
         public override int ID { get; set; }
+
+        [Required]
+        public int PlotType { get; set; } = 0;
+
+        [Required]
+        public string Title { get; set; } = string.Empty;
+
+        [Required]
+        public string Goal { get; set; } = string.Empty;
+
+        [Required]
+        public string Scene { get; set; } = string.Empty;
+
+        [Required]
+        public string Description { get; set; } = string.Empty;
     }
 }

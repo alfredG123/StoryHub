@@ -6,5 +6,8 @@ namespace Web.Models
     {
         [Key]
         public override int ID { get; set; }
+
+        [Required]
+        public string Title { get; set; } = string.Empty;
     }
 }

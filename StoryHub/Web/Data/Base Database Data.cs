@@ -10,9 +10,32 @@ namespace Web.Data
         /// Return true, if the properties are equal
         /// Otherwise, return false
         /// </summary>
-        /// <param name="base_database_data"></param>
+        /// <param name="other_data"></param>
         /// <returns></returns>
         public abstract bool CompareContent(BaseDatabaseData other_data);
+
+        /// <summary>
+        /// Create a model object
+        /// </summary>
+        /// <returns></returns>
+        protected abstract BaseModel CreateEmptyModelObject();
+
+        /// <summary>
+        /// Retrieve the model object from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="db_context"></param>
+        protected abstract BaseModel? RetrieveModelObject(BaseID id, ProgramDbContext db_context);
+
+        /// <summary>
+        /// Update the data object for retrieving the data from the database
+        /// </summary>
+        protected abstract void UpdateDataObject();
+
+        /// <summary>
+        /// Update the model object for saving the data in database
+        /// </summary>
+        protected abstract void UpdateModelObject();
 
         #region "Constructors"
         /// <summary>
@@ -289,12 +312,6 @@ namespace Web.Data
         }
 
         /// <summary>
-        /// Create a model object
-        /// </summary>
-        /// <returns></returns>
-        protected abstract BaseModel CreateEmptyModelObject();
-
-        /// <summary>
         /// Reset the global list to clean up old data
         /// </summary>
         protected virtual void ResetGlobalData()
@@ -303,25 +320,11 @@ namespace Web.Data
         }
 
         /// <summary>
-        /// Retrieve the model object from the database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="db_context"></param>
-        protected abstract BaseModel? RetrieveModelObject(BaseID id, ProgramDbContext db_context);
-
-        /// <summary>
         /// Set up the default value for global variables for creating a new object
         /// </summary>
-        protected abstract void SetUpDefaultValueForDataObject();
-
-        /// <summary>
-        /// Update the data object for retrieving the data from the database
-        /// </summary>
-        protected abstract void UpdateDataObject();
-
-        /// <summary>
-        /// Update the model object for saving the data in database
-        /// </summary>
-        protected abstract void UpdateModelObject();
+        protected virtual void SetUpDefaultValueForDataObject()
+        {
+            // Do nothing
+        }
     }
 }

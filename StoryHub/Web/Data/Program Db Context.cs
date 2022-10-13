@@ -20,5 +20,10 @@ namespace Web.Data
         /// Set up database table, Story Data
         /// </summary>
         public DbSet<StoryModel> StoryData { get; set; }
+
+        /// <summary>
+        /// Set up database table, Character Data
+        /// </summary>
+        public DbSet<CharacterModel> CharacterData { get; set; }
     }
 }

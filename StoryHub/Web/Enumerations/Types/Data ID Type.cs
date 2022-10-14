@@ -10,6 +10,7 @@
         public readonly static DataIDType RegionData = new(3, "Region Data");
         public readonly static DataIDType ReferenceData = new(4, "Reference Data");
         public readonly static DataIDType PlotData = new(5, "Plot Data");
+        public readonly static DataIDType CustomFieldData = new(6, "Custom Field Data");
 
         /// <summary>
         /// Create a new data ID type

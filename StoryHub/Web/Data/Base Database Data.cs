@@ -139,13 +139,13 @@ namespace Web.Data
         /// <param name="db_context"></param>
         public void Delete(ProgramDbContext db_context)
         {
-            // If the artifact is not saved yet, return
+            // If the item is not saved yet, return
             if (!this.IsSet)
             {
                 return;
             }
 
-            // Delete the artifact from database
+            // Delete the item from database
             db_context.Remove(this.BaseModel);
             db_context.SaveChanges();
 

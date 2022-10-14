@@ -25,5 +25,10 @@ namespace Web.Data
         /// Set up database table, Character Data
         /// </summary>
         public DbSet<CharacterModel> CharacterData { get; set; }
+
+        /// <summary>
+        /// Set up database table, Character Data
+        /// </summary>
+        public DbSet<CustomFieldModel> CustomFieldData { get; set; }
     }
 }

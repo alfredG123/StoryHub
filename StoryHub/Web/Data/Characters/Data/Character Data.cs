@@ -1,7 +1,7 @@
 ﻿using Web.Data.ID;
 using Web.Models;
 
-namespace Web.Data.Artifacts
+namespace Web.Data.Characters
 {
     public class CharacterData : BaseDatabaseData
     {
@@ -25,7 +25,7 @@ namespace Web.Data.Artifacts
         }
 
         /// <summary>
-        /// Create an character data using the model
+        /// Create a character data using the model
         /// </summary>
         /// <param name="character_model"></param>
         public CharacterData(CharacterModel character_model)

@@ -20,6 +20,6 @@ namespace Web.Models
         public string Scene { get; set; } = string.Empty;
 
         [Required]
-        public string Description { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
     }
 }

@@ -53,6 +53,11 @@ namespace Web.Data.Plots
         public PlotType PlotType { get; set; } = PlotType.None;
 
         /// <summary>
+        /// Return the drama type
+        /// </summary>
+        public DramaType DramaType { get; set; } = DramaType.None;
+
+        /// <summary>
         /// Return the title of the plot
         /// </summary>
         public string Title { get; set; } = string.Empty;
@@ -100,6 +105,13 @@ namespace Web.Data.Plots
             if (is_equal)
             {
                 if (this.PlotType != plot_data.PlotType)
+                {
+                    is_equal = false;
+                }
+            }
+            if (is_equal)
+            {
+                if (this.DramaType != plot_data.DramaType)
                 {
                     is_equal = false;
                 }
@@ -155,6 +167,17 @@ namespace Web.Data.Plots
                     is_valid = false;
 
                     this.ErrorMessage = "The plot type is not set.";
+                }
+            }
+
+            // Validate the drama type
+            if (is_valid)
+            {
+                if (this.DramaType == DramaType.None)
+                {
+                    is_valid = false;
+
+                    this.ErrorMessage = "The drama type is not set.";
                 }
             }
 
@@ -236,6 +259,7 @@ namespace Web.Data.Plots
 
             this.ID = plot_id;
             this.PlotType = PlotType.GetPlotType(plot_model.PlotType);
+            this.DramaType = DramaType.GetDramaType(plot_model.DramaType);
             this.Title = plot_model.Title;
             this.Goal = plot_model.Goal;
             this.Scene = plot_model.Scene;
@@ -252,6 +276,7 @@ namespace Web.Data.Plots
 
             plot_model.ID = this.PlotID.Value;
             plot_model.PlotType = this.PlotType.Value;
+            plot_model.DramaType = this.DramaType.Value;
             plot_model.Title = this.Title;
             plot_model.Goal = this.Goal;
             plot_model.Scene = this.Scene;

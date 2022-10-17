@@ -11,6 +11,9 @@ namespace Web.Models
         public int PlotType { get; set; } = 0;
 
         [Required]
+        public int DramaType { get; set; } = 0;
+
+        [Required]
         public string Title { get; set; } = string.Empty;
 
         [Required]

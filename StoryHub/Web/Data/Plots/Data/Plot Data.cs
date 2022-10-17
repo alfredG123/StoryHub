@@ -202,7 +202,6 @@ namespace Web.Data.Plots
                 }
             }
 
-
             return is_valid;
         }
 

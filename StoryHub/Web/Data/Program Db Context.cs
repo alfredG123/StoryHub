@@ -35,5 +35,10 @@ namespace Web.Data
         /// Set up database table, Plot Data
         /// </summary>
         public DbSet<PlotModel> PlotData { get; set; }
+
+        /// <summary>
+        /// Set up database table, Reference Data
+        /// </summary>
+        public DbSet<PlotModel> ReferenceData { get; set; }
     }
 }

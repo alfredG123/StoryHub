@@ -10,7 +10,7 @@ namespace Web.Data.References
         /// Create a new reference data
         /// </summary>
         public ReferenceData()
-            : base(new ReferenceID(), new ReferenceModel())
+            : base(new ReferenceID(), new ReferenceDataModel())
         {
         }
 
@@ -27,9 +27,9 @@ namespace Web.Data.References
         /// <summary>
         /// Create a reference data using the model
         /// </summary>
-        /// <param name="reference_model"></param>
-        public ReferenceData(ReferenceModel reference_model)
-            : base(new ReferenceID(reference_model.ID), reference_model)
+        /// <param name="reference_data_model"></param>
+        public ReferenceData(ReferenceDataModel reference_data_model)
+            : base(new ReferenceID(reference_data_model.ID), reference_data_model)
         {
         }
         #endregion
@@ -118,7 +118,7 @@ namespace Web.Data.References
         /// <returns></returns>
         protected override BaseModel CreateEmptyModelObject()
         {
-            return (new ReferenceModel());
+            return (new ReferenceDataModel());
         }
 
         /// <summary>
@@ -138,11 +138,11 @@ namespace Web.Data.References
         /// </summary>
         protected override void UpdateDataObject()
         {
-            ReferenceModel reference_model = (ReferenceModel)this.BaseModel;
-            ReferenceID reference_id = new(reference_model.ID);
+            ReferenceDataModel reference_data_model = (ReferenceDataModel)this.BaseModel;
+            ReferenceID reference_id = new(reference_data_model.ID);
 
             this.ID = reference_id;
-            this.Title = reference_model.Title;
+            this.Title = reference_data_model.Title;
             this.IsSet = reference_id.IsSet;
         }
 
@@ -151,10 +151,10 @@ namespace Web.Data.References
         /// </summary>
         protected override void UpdateModelObject()
         {
-            ReferenceModel reference_model = (ReferenceModel)this.BaseModel;
+            ReferenceDataModel reference_data_model = (ReferenceDataModel)this.BaseModel;
 
-            reference_model.ID = this.ReferenceID.Value;
-            reference_model.Title = this.Title;
+            reference_data_model.ID = this.ReferenceID.Value;
+            reference_data_model.Title = this.Title;
         }
     }
 }

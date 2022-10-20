@@ -10,7 +10,7 @@ namespace Web.Data.CustomFields
         /// Create a new custom field data
         /// </summary>
         public CustomFieldData()
-            : base(new CustomFieldID(), new CustomFieldModel())
+            : base(new CustomFieldID(), new CustomFieldDataModel())
         {
         }
 
@@ -27,9 +27,9 @@ namespace Web.Data.CustomFields
         /// <summary>
         /// Create a custom field data using the model
         /// </summary>
-        /// <param name="custom_field_model"></param>
-        public CustomFieldData(CustomFieldModel custom_field_model)
-            : base(new CustomFieldID(custom_field_model.ID), custom_field_model)
+        /// <param name="custom_field_data_model"></param>
+        public CustomFieldData(CustomFieldDataModel custom_field_data_model)
+            : base(new CustomFieldID(custom_field_data_model.ID), custom_field_data_model)
         {
         }
         #endregion
@@ -130,7 +130,7 @@ namespace Web.Data.CustomFields
         /// <returns></returns>
         protected override BaseModel CreateEmptyModelObject()
         {
-            return (new CustomFieldModel());
+            return (new CustomFieldDataModel());
         }
 
         /// <summary>
@@ -150,12 +150,12 @@ namespace Web.Data.CustomFields
         /// </summary>
         protected override void UpdateDataObject()
         {
-            CustomFieldModel custom_field_model = (CustomFieldModel)this.BaseModel;
-            CustomFieldID custom_field_id = new(custom_field_model.ID);
+            CustomFieldDataModel custom_field_data_model = (CustomFieldDataModel)this.BaseModel;
+            CustomFieldID custom_field_id = new(custom_field_data_model.ID);
 
             this.ID = custom_field_id;
-            this.FieldName = custom_field_model.FieldName;
-            this.Content = custom_field_model.Content;
+            this.FieldName = custom_field_data_model.FieldName;
+            this.Content = custom_field_data_model.Content;
             this.IsSet = custom_field_id.IsSet;
         }
 
@@ -164,11 +164,11 @@ namespace Web.Data.CustomFields
         /// </summary>
         protected override void UpdateModelObject()
         {
-            CustomFieldModel custom_field_model = (CustomFieldModel)this.BaseModel;
+            CustomFieldDataModel custom_field_data_model = (CustomFieldDataModel)this.BaseModel;
 
-            custom_field_model.ID = this.CustomFieldID.Value;
-            custom_field_model.FieldName = this.FieldName;
-            custom_field_model.Content = this.Content;
+            custom_field_data_model.ID = this.CustomFieldID.Value;
+            custom_field_data_model.FieldName = this.FieldName;
+            custom_field_data_model.Content = this.Content;
         }
     }
 }

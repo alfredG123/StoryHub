@@ -33,9 +33,9 @@ namespace Web.Data.CustomFields
         protected override void RetrieveData(ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.CustomFieldData
-            List<CustomFieldModel> custom_field_data_model_list = db_context.CustomFieldData.ToList();
+            List<CustomFieldDataModel> custom_field_data_model_list = db_context.CustomFieldData.ToList();
 
-            foreach (CustomFieldModel custom_field_data_model in custom_field_data_model_list)
+            foreach (CustomFieldDataModel custom_field_data_model in custom_field_data_model_list)
             {
                 this.Add(new CustomFieldData(custom_field_data_model));
             }

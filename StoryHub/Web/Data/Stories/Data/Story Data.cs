@@ -11,7 +11,7 @@ namespace Web.Data.Stories
         /// Create a new story data
         /// </summary>
         public StoryData()
-            : base(new StoryID(), new StoryModel())
+            : base(new StoryID(), new StoryDataModel())
         {
         }
 
@@ -28,9 +28,9 @@ namespace Web.Data.Stories
         /// <summary>
         /// Create a story data using the model
         /// </summary>
-        /// <param name="story_model"></param>
-        public StoryData(StoryModel story_model)
-            : base(new StoryID(story_model.ID), story_model)
+        /// <param name="story_data_model"></param>
+        public StoryData(StoryDataModel story_data_model)
+            : base(new StoryID(story_data_model.ID), story_data_model)
         {
         }
         #endregion
@@ -131,7 +131,7 @@ namespace Web.Data.Stories
         /// <returns></returns>
         protected override BaseModel CreateEmptyModelObject()
         {
-            return (new StoryModel());
+            return (new StoryDataModel());
         }
 
         /// <summary>
@@ -151,12 +151,12 @@ namespace Web.Data.Stories
         /// </summary>
         protected override void UpdateDataObject()
         {
-            StoryModel story_model = (StoryModel)this.BaseModel;
-            StoryID story_id = new(story_model.ID);
+            StoryDataModel story_data_model = (StoryDataModel)this.BaseModel;
+            StoryID story_id = new(story_data_model.ID);
 
             this.ID = story_id;
-            this.Title = story_model.Title;
-            this.CreationDate = story_model.CreationDate;
+            this.Title = story_data_model.Title;
+            this.CreationDate = story_data_model.CreationDate;
         }
 
         /// <summary>
@@ -164,11 +164,11 @@ namespace Web.Data.Stories
         /// </summary>
         protected override void UpdateModelObject()
         {
-            StoryModel story_model = (StoryModel)this.BaseModel;
+            StoryDataModel story_data_model = (StoryDataModel)this.BaseModel;
 
-            story_model.ID = this.StoryID.Value;
-            story_model.Title = this.Title;
-            story_model.CreationDate = this.CreationDate;
+            story_data_model.ID = this.StoryID.Value;
+            story_data_model.Title = this.Title;
+            story_data_model.CreationDate = this.CreationDate;
         }
     }
 }

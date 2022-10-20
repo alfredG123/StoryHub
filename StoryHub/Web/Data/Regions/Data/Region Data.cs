@@ -10,7 +10,7 @@ namespace Web.Data.Regions
         /// Create a new region data
         /// </summary>
         public RegionData()
-            : base(new RegionID(), new RegionModel())
+            : base(new RegionID(), new RegionDataModel())
         {
         }
 
@@ -27,9 +27,9 @@ namespace Web.Data.Regions
         /// <summary>
         /// Create a region data using the model
         /// </summary>
-        /// <param name="region_model"></param>
-        public RegionData(RegionModel region_model)
-            : base(new RegionID(region_model.ID), region_model)
+        /// <param name="region_data_model"></param>
+        public RegionData(RegionDataModel region_data_model)
+            : base(new RegionID(region_data_model.ID), region_data_model)
         {
         }
         #endregion
@@ -139,7 +139,7 @@ namespace Web.Data.Regions
         /// <returns></returns>
         protected override BaseModel CreateEmptyModelObject()
         {
-            return (new RegionModel());
+            return (new RegionDataModel());
         }
 
         /// <summary>
@@ -159,12 +159,12 @@ namespace Web.Data.Regions
         /// </summary>
         protected override void UpdateDataObject()
         {
-            RegionModel region_model = (RegionModel)this.BaseModel;
-            RegionID region_id = new(region_model.ID);
+            RegionDataModel region_data_model = (RegionDataModel)this.BaseModel;
+            RegionID region_id = new(region_data_model.ID);
 
             this.ID = region_id;
-            this.Name = region_model.Name;
-            this.Description = region_model.Description;
+            this.Name = region_data_model.Name;
+            this.Description = region_data_model.Description;
             this.IsSet = region_id.IsSet;
         }
 
@@ -173,11 +173,11 @@ namespace Web.Data.Regions
         /// </summary>
         protected override void UpdateModelObject()
         {
-            RegionModel region_model = (RegionModel)this.BaseModel;
+            RegionDataModel region_data_model = (RegionDataModel)this.BaseModel;
 
-            region_model.ID = this.RegionID.Value;
-            region_model.Name = this.Name;
-            region_model.Description = this.Description;
+            region_data_model.ID = this.RegionID.Value;
+            region_data_model.Name = this.Name;
+            region_data_model.Description = this.Description;
         }
     }
 }

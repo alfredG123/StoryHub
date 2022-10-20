@@ -33,9 +33,9 @@ namespace Web.Data.References
         protected override void RetrieveData(ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.ReferenceData
-            List<ReferenceModel> reference_data_model_list = db_context.ReferenceData.ToList();
+            List<ReferenceDataModel> reference_data_model_list = db_context.ReferenceData.ToList();
 
-            foreach (ReferenceModel reference_data_model in reference_data_model_list)
+            foreach (ReferenceDataModel reference_data_model in reference_data_model_list)
             {
                 this.Add(new ReferenceData(reference_data_model));
             }

@@ -33,9 +33,9 @@ namespace Web.Data.Regions
         protected override void RetrieveData(ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.RegionData
-            List<RegionModel> region_data_model_list = db_context.RegionData.ToList();
+            List<RegionDataModel> region_data_model_list = db_context.RegionData.ToList();
 
-            foreach (RegionModel region_data_model in region_data_model_list)
+            foreach (RegionDataModel region_data_model in region_data_model_list)
             {
                 this.Add(new RegionData(region_data_model));
             }

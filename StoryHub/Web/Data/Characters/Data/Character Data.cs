@@ -10,7 +10,7 @@ namespace Web.Data.Characters
         /// Create a new character data
         /// </summary>
         public CharacterData()
-            : base(new CharacterID(), new CharacterModel())
+            : base(new CharacterID(), new CharacterDataModel())
         {
         }
 
@@ -27,9 +27,9 @@ namespace Web.Data.Characters
         /// <summary>
         /// Create a character data using the model
         /// </summary>
-        /// <param name="character_model"></param>
-        public CharacterData(CharacterModel character_model)
-            : base(new CharacterID(character_model.ID), character_model)
+        /// <param name="character_data_model"></param>
+        public CharacterData(CharacterDataModel character_data_model)
+            : base(new CharacterID(character_data_model.ID), character_data_model)
         {
         }
         #endregion
@@ -130,7 +130,7 @@ namespace Web.Data.Characters
         /// <returns></returns>
         protected override BaseModel CreateEmptyModelObject()
         {
-            return (new CharacterModel());
+            return (new CharacterDataModel());
         }
 
         /// <summary>
@@ -150,12 +150,12 @@ namespace Web.Data.Characters
         /// </summary>
         protected override void UpdateDataObject()
         {
-            CharacterModel character_model = (CharacterModel)this.BaseModel;
-            CharacterID character_id = new(character_model.ID);
+            CharacterDataModel character_data_model = (CharacterDataModel)this.BaseModel;
+            CharacterID character_id = new(character_data_model.ID);
 
             this.ID = character_id;
-            this.Name = character_model.Name;
-            this.Description = character_model.Description;
+            this.Name = character_data_model.Name;
+            this.Description = character_data_model.Description;
             this.IsSet = character_id.IsSet;
         }
 
@@ -164,11 +164,11 @@ namespace Web.Data.Characters
         /// </summary>
         protected override void UpdateModelObject()
         {
-            CharacterModel character_model = (CharacterModel)this.BaseModel;
+            CharacterDataModel character_data_model = (CharacterDataModel)this.BaseModel;
 
-            character_model.ID = this.CharacterID.Value;
-            character_model.Name = this.Name;
-            character_model.Description = this.Description;
+            character_data_model.ID = this.CharacterID.Value;
+            character_data_model.Name = this.Name;
+            character_data_model.Description = this.Description;
         }
     }
 }

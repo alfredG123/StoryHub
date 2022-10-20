@@ -11,7 +11,7 @@ namespace Web.Data.Plots
         /// Create a new plot data
         /// </summary>
         public PlotData()
-            : base(new PlotID(), new PlotModel())
+            : base(new PlotID(), new PlotDataModel())
         {
         }
 
@@ -28,9 +28,9 @@ namespace Web.Data.Plots
         /// <summary>
         /// Create a plot data using the model
         /// </summary>
-        /// <param name="plot_model"></param>
-        public PlotData(PlotModel plot_model)
-            : base(new PlotID(plot_model.ID), plot_model)
+        /// <param name="plot_data_model"></param>
+        public PlotData(PlotDataModel plot_data_model)
+            : base(new PlotID(plot_data_model.ID), plot_data_model)
         {
         }
         #endregion
@@ -234,7 +234,7 @@ namespace Web.Data.Plots
         /// <returns></returns>
         protected override BaseModel CreateEmptyModelObject()
         {
-            return (new PlotModel());
+            return (new PlotDataModel());
         }
 
         /// <summary>
@@ -254,16 +254,16 @@ namespace Web.Data.Plots
         /// </summary>
         protected override void UpdateDataObject()
         {
-            PlotModel plot_model = (PlotModel)this.BaseModel;
-            PlotID plot_id = new(plot_model.ID);
+            PlotDataModel plot_data_model = (PlotDataModel)this.BaseModel;
+            PlotID plot_id = new(plot_data_model.ID);
 
             this.ID = plot_id;
-            this.PlotType = PlotType.GetPlotType(plot_model.PlotType);
-            this.DramaType = DramaType.GetDramaType(plot_model.DramaType);
-            this.Title = plot_model.Title;
-            this.Goal = plot_model.Goal;
-            this.Scene = plot_model.Scene;
-            this.Content = plot_model.Content;
+            this.PlotType = PlotType.GetPlotType(plot_data_model.PlotType);
+            this.DramaType = DramaType.GetDramaType(plot_data_model.DramaType);
+            this.Title = plot_data_model.Title;
+            this.Goal = plot_data_model.Goal;
+            this.Scene = plot_data_model.Scene;
+            this.Content = plot_data_model.Content;
             this.IsSet = plot_id.IsSet;
         }
 
@@ -272,15 +272,15 @@ namespace Web.Data.Plots
         /// </summary>
         protected override void UpdateModelObject()
         {
-            PlotModel plot_model = (PlotModel)this.BaseModel;
+            PlotDataModel plot_data_model = (PlotDataModel)this.BaseModel;
 
-            plot_model.ID = this.PlotID.Value;
-            plot_model.PlotType = this.PlotType.Value;
-            plot_model.DramaType = this.DramaType.Value;
-            plot_model.Title = this.Title;
-            plot_model.Goal = this.Goal;
-            plot_model.Scene = this.Scene;
-            plot_model.Content = this.Content;
+            plot_data_model.ID = this.PlotID.Value;
+            plot_data_model.PlotType = this.PlotType.Value;
+            plot_data_model.DramaType = this.DramaType.Value;
+            plot_data_model.Title = this.Title;
+            plot_data_model.Goal = this.Goal;
+            plot_data_model.Scene = this.Scene;
+            plot_data_model.Content = this.Content;
         }
     }
 }

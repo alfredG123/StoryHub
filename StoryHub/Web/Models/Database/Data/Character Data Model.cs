@@ -2,7 +2,7 @@
 
 namespace Web.Models
 {
-    public class RegionModel : BaseModel
+    public class CharacterDataModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Web.Models
 {
-    public class ReferenceModel : BaseModel
+    public class ReferenceDataModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }

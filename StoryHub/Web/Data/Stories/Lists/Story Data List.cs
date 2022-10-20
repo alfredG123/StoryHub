@@ -33,9 +33,9 @@ namespace Web.Data.Stories
         protected override void RetrieveData(ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.StoryData
-            List<StoryModel> story_data_model_list = db_context.StoryData.ToList();
+            List<StoryDataModel> story_data_model_list = db_context.StoryData.ToList();
 
-            foreach (StoryModel story_data_model in story_data_model_list)
+            foreach (StoryDataModel story_data_model in story_data_model_list)
             {
                 this.Add(new StoryData(story_data_model));
             }

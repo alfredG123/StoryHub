@@ -33,9 +33,9 @@ namespace Web.Data.Plots
         protected override void RetrieveData(ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.PlotData
-            List<PlotModel> plot_data_model_list = db_context.PlotData.ToList();
+            List<PlotDataModel> plot_data_model_list = db_context.PlotData.ToList();
 
-            foreach (PlotModel plot_data_model in plot_data_model_list)
+            foreach (PlotDataModel plot_data_model in plot_data_model_list)
             {
                 this.Add(new PlotData(plot_data_model));
             }

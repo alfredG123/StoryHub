@@ -2,7 +2,7 @@
 
 namespace Web.Models
 {
-    public class StoryModel : BaseModel
+    public class StoryDataModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }

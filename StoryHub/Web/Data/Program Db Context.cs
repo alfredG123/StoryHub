@@ -19,31 +19,31 @@ namespace Web.Data
         /// <summary>
         /// Set up database table, Story Data
         /// </summary>
-        public DbSet<StoryModel> StoryData { get; set; }
+        public DbSet<StoryDataModel> StoryData { get; set; }
 
         /// <summary>
         /// Set up database table, Region Data
         /// </summary>
-        public DbSet<RegionModel> RegionData { get; set; }
+        public DbSet<RegionDataModel> RegionData { get; set; }
 
         /// <summary>
         /// Set up database table, Character Data
         /// </summary>
-        public DbSet<CharacterModel> CharacterData { get; set; }
+        public DbSet<CharacterDataModel> CharacterData { get; set; }
 
         /// <summary>
         /// Set up database table, Character Data
         /// </summary>
-        public DbSet<CustomFieldModel> CustomFieldData { get; set; }
+        public DbSet<CustomFieldDataModel> CustomFieldData { get; set; }
 
         /// <summary>
         /// Set up database table, Plot Data
         /// </summary>
-        public DbSet<PlotModel> PlotData { get; set; }
+        public DbSet<PlotDataModel> PlotData { get; set; }
 
         /// <summary>
         /// Set up database table, Reference Data
         /// </summary>
-        public DbSet<ReferenceModel> ReferenceData { get; set; }
+        public DbSet<ReferenceDataModel> ReferenceData { get; set; }
     }
 }

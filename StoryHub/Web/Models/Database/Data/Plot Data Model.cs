@@ -2,7 +2,7 @@
 
 namespace Web.Models
 {
-    public class PlotModel : BaseModel
+    public class PlotDataModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }

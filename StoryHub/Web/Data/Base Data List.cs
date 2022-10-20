@@ -22,6 +22,13 @@ namespace Web.Data
         protected abstract void RetrieveData(ProgramDbContext db_context);
 
         /// <summary>
+        /// Create an empty list
+        /// </summary>
+        public BaseDataList()
+        {
+        }
+
+        /// <summary>
         /// Retrieve all data from the database
         /// </summary>
         /// <param name="db_context"></param>

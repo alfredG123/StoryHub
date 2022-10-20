@@ -44,6 +44,6 @@ namespace Web.Data
         /// <summary>
         /// Set up database table, Reference Data
         /// </summary>
-        public DbSet<PlotModel> ReferenceData { get; set; }
+        public DbSet<ReferenceModel> ReferenceData { get; set; }
     }
 }

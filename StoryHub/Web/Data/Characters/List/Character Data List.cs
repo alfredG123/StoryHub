@@ -33,11 +33,11 @@ namespace Web.Data.Characters
         protected override void RetrieveData(ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.CharacterData
-            List<CharacterModel> character_data_list = db_context.CharacterData.ToList();
+            List<CharacterModel> character_data_model_list = db_context.CharacterData.ToList();
 
-            foreach (CharacterModel character_model in character_data_list)
+            foreach (CharacterModel character_data_model in character_data_model_list)
             {
-                this.Add(new CharacterData(character_model));
+                this.Add(new CharacterData(character_data_model));
             }
         }
     }

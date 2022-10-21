@@ -3,6 +3,7 @@ using Web.Models;
 
 namespace Web.Data.Regions
 {
+    [Serializable()]
     public class RegionData : BaseDatabaseData
     {
         #region "Constructors"

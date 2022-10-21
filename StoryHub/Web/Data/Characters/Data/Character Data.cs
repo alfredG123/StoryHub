@@ -3,6 +3,7 @@ using Web.Models;
 
 namespace Web.Data.Characters
 {
+    [Serializable()]
     public class CharacterData : BaseDatabaseData
     {
         #region "Constructors"

@@ -2,6 +2,7 @@
 
 namespace Web.Enumerations
 {
+    [Serializable()]
     public class BaseEnumeration
         : IComparable
     {

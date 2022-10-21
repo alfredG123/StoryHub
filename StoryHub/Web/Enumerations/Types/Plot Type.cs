@@ -1,5 +1,6 @@
 ﻿namespace Web.Enumerations
 {
+    [Serializable()]
     public class PlotType
         : BaseEnumeration
     {

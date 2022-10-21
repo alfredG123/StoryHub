@@ -2,6 +2,7 @@
 
 namespace Web.Data.ID
 {
+    [Serializable()]
     public abstract class BaseID
     {
         private static readonly int _no_id = 0;

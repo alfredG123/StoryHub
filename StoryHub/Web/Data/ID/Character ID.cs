@@ -2,6 +2,7 @@
 
 namespace Web.Data.ID
 {
+    [Serializable()]
     public class CharacterID : BaseID
     {
         /// <summary>

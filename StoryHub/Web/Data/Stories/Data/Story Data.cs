@@ -4,6 +4,7 @@ using Web.Models;
 
 namespace Web.Data.Stories
 {
+    [Serializable()]
     public class StoryData : BaseDatabaseData
     {
         #region "Constructors"

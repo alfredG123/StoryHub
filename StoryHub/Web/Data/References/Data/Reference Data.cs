@@ -3,6 +3,7 @@ using Web.Models;
 
 namespace Web.Data.References
 {
+    [Serializable()]
     public class ReferenceData : BaseDatabaseData
     {
         #region "Constructors"

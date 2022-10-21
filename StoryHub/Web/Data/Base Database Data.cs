@@ -3,6 +3,7 @@ using Web.Models;
 
 namespace Web.Data
 {
+    [Serializable()]
     public abstract class BaseDatabaseData
     {
         /// <summary>

@@ -4,6 +4,7 @@ using Web.Models;
 
 namespace Web.Data.Plots
 {
+    [Serializable()]
     public class PlotData : BaseDatabaseData
     {
         #region "Constructors"

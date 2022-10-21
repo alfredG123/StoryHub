@@ -3,6 +3,7 @@ using Web.Models;
 
 namespace Web.Data.CustomFields
 {
+    [Serializable()]
     public class CustomFieldData : BaseDatabaseData
     {
         #region "Constructors"

@@ -4,8 +4,8 @@ namespace Web.Data
 {
     [Serializable()]
     public abstract class BaseDataList<TID, TData>
-    : List<TData>
-           where TID : BaseID
+        : List<TData>
+        where TID : BaseID
         where TData : BaseDatabaseData
     {
         /// <summary>

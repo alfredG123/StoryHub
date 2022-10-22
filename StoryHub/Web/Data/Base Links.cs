@@ -1,4 +1,5 @@
 ﻿using Web.Data.ID;
+using Web.Models;
 
 namespace Web.Data
 {
@@ -30,25 +31,22 @@ namespace Web.Data
         where TRightID : BaseID
     {
         /// <summary>
-        /// Retrieve all link items from database
+        /// Load the model
         /// </summary>
-        /// <param name="left_id"></param>
-        /// <param name="right_id"></param>
+        /// <param name="base_model"></param>
         /// <param name="db_context"></param>
-        public BaseLinkItem(TLeftID left_id, TRightID right_id, ProgramDbContext db_context)
+        public BaseLinkItem(BaseModel base_model, ProgramDbContext db_context)
         {
-            this.LeftID = left_id;
-            this.RightID = right_id;
         }
 
         /// <summary>
         /// Return the left ID
         /// </summary>
-        public TLeftID LeftID { get; }
+        protected abstract TLeftID LeftID { get; }
 
         /// <summary>
         /// Return the right ID
         /// </summary>
-        public TRightID RightID { get; }
+        protected abstract TRightID RightID { get; }
     }
 }

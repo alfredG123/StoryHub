@@ -2,18 +2,18 @@
 
 namespace Web.Models
 {
-    public class CharacterReferenceLinkModel : BaseModel
+    public class CharacterReferenceLinkItemModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }
 
         [Required]
-        int CharacterID { get; set; } = 0;
+        public int CharacterID { get; set; } = 0;
 
         [Required]
-        int ReferenceID { get; set; } = 0;
+        public int ReferenceID { get; set; } = 0;
 
         [Required]
-        string Description { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

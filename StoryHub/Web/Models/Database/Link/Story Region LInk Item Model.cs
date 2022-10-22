@@ -2,15 +2,15 @@
 
 namespace Web.Models
 {
-    public class StoryRegionLinkModel : BaseModel
+    public class StoryRegionLinkItemModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }
 
         [Required]
-        int StoryID { get; set; } = 0;
+        public int StoryID { get; set; } = 0;
 
         [Required]
-        int RegionID { get; set; } = 0;
+        public int RegionID { get; set; } = 0;
     }
 }

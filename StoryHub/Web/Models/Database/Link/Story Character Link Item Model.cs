@@ -2,15 +2,15 @@
 
 namespace Web.Models
 {
-    public class StoryCharacterLinkModel : BaseModel
+    public class StoryCharacterLinkItemModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }
 
         [Required]
-        int StoryID { get; set; } = 0;
+        public int StoryID { get; set; } = 0;
 
         [Required]
-        int CharacterID { get; set; } = 0;
+        public int CharacterID { get; set; } = 0;
     }
 }

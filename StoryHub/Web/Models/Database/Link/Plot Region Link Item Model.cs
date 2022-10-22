@@ -2,18 +2,18 @@
 
 namespace Web.Models
 {
-    public class PlotRegionLinkModel : BaseModel
+    public class PlotRegionLinkItemModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }
 
         [Required]
-        int PlotID { get; set; } = 0;
+        public int PlotID { get; set; } = 0;
 
         [Required]
-        int RegionID { get; set; } = 0;
+        public int RegionID { get; set; } = 0;
 
         [Required]
-        string Description { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

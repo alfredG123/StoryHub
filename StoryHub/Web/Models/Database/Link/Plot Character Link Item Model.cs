@@ -2,18 +2,18 @@
 
 namespace Web.Models
 {
-    public class PlotCharacterLinkModel : BaseModel
+    public class PlotCharacterLinkItemModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }
 
         [Required]
-        int PlotID { get; set; } = 0;
+        public int PlotID { get; set; } = 0;
 
         [Required]
-        int CharacterID { get; set; } = 0;
+        public int CharacterID { get; set; } = 0;
 
         [Required]
-        string Description { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

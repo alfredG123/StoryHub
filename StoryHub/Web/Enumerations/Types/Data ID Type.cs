@@ -12,6 +12,7 @@
         public readonly static DataIDType ReferenceData = new(4, "Reference Data");
         public readonly static DataIDType PlotData = new(5, "Plot Data");
         public readonly static DataIDType CustomFieldData = new(6, "Custom Field Data");
+        public readonly static DataIDType CharacterReferenceLinkItem = new(7, "Character Reference Link Item");
 
         /// <summary>
         /// Create a new data ID type

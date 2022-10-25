@@ -50,5 +50,10 @@ namespace Web.Data
         ///  Set up database table, Character Reference Link Item
         /// </summary>
         public DbSet<CharacterReferenceLinkItemModel> CharacterReferenceLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Plot Character Link Item
+        /// </summary>
+        public DbSet<PlotCharacterLinkItemModel> PlotCharacterLinkItem { get; set; }
     }
 }

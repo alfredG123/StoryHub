@@ -55,5 +55,50 @@ namespace Web.Data
         ///  Set up database table, Plot Character Link Item
         /// </summary>
         public DbSet<PlotCharacterLinkItemModel> PlotCharacterLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Plot Plot Link Item
+        /// </summary>
+        public DbSet<PlotPlotLinkItemModel> PlotPlotLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Plot Region Link Item
+        /// </summary>
+        public DbSet<PlotRegionLinkItemModel> PlotRegionLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Region Character Link Item
+        /// </summary>
+        public DbSet<RegionCharacterLinkItemModel> RegionCharacterLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Region Reference Link Item
+        /// </summary>
+        public DbSet<RegionReferenceLinkItemModel> RegionReferenceLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Region Region Link Item
+        /// </summary>
+        public DbSet<RegionRegionLinkItemModel> RegionRegionLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Story Character Link Item
+        /// </summary>
+        public DbSet<StoryCharacterLinkItemModel> StoryCharacterLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Story Custom Field Link Item
+        /// </summary>
+        public DbSet<StoryCustomFieldModel> StoryCustomField { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Story Plot Link Item
+        /// </summary>
+        public DbSet<StoryPlotLinkItemModel> StoryPlotLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Story Region Link Item
+        /// </summary>
+        public DbSet<StoryRegionLinkItemModel> StoryRegionLinkItem { get; set; }
     }
 }

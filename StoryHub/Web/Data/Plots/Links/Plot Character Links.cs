@@ -10,48 +10,33 @@ namespace Web.Data.Plots
         /// <summary>
         /// Retrieve all plot character link items from database
         /// </summary>
-        /// <param name="plot_id"></param>
+        /// <param name="link_type"></param>
+        /// <param name="id"></param>
         /// <param name="db_context"></param>
-        public PlotCharacterLinks(PlotID plot_id, ProgramDbContext db_context)
-            : base(plot_id, db_context)
-        {
-        }
-
-        /// <summary>
-        /// Retrieve all plot character link items from database
-        /// </summary>
-        /// <param name="character_id"></param>
-        /// <param name="db_context"></param>
-        public PlotCharacterLinks(CharacterID character_id, ProgramDbContext db_context)
-            : base(character_id, db_context)
+        public PlotCharacterLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
+            : base(link_type, id, db_context)
         {
         }
 
         /// <summary>
         /// Retrieve all link items from database
         /// </summary>
-        /// <param name="plot_id"></param>
+        /// <param name="link_type"></param>
+        /// <param name="id"></param>
         /// <param name="db_context"></param>
-        protected override void RetrieveLinks(PlotID plot_id, ProgramDbContext db_context)
+        protected override void RetrieveLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.PlotCharacterLinkItem
-            List<PlotCharacterLinkItemModel> plot_character_link_item_model_list = db_context.PlotCharacterLinkItem.Where(list_item => list_item.PlotID == plot_id.Value).ToList();
+            List<PlotCharacterLinkItemModel> plot_character_link_item_model_list;
 
-            foreach (PlotCharacterLinkItemModel plot_character_link_item_model in plot_character_link_item_model_list)
+            if (link_type == LinkType.ByLeft)
             {
-                this.Add(new PlotCharacterLinkItem(plot_character_link_item_model));
+                plot_character_link_item_model_list = db_context.PlotCharacterLinkItem.Where(list_item => list_item.PlotID == id.Value).ToList();
             }
-        }
-
-        /// <summary>
-        /// Retrieve all link items from database
-        /// </summary>
-        /// <param name="character_id"></param>
-        /// <param name="db_context"></param>
-        protected override void RetrieveLinks(CharacterID character_id, ProgramDbContext db_context)
-        {
-            // NOTE: Close the connection first by using ToList() instead iterating db_context.PlotCharacterLinkItem
-            List<PlotCharacterLinkItemModel> plot_character_link_item_model_list = db_context.PlotCharacterLinkItem.Where(list_item => list_item.CharacterID == character_id.Value).ToList();
+            else
+            {
+                plot_character_link_item_model_list = db_context.PlotCharacterLinkItem.Where(list_item => list_item.CharacterID == id.Value).ToList();
+            }
 
             foreach (PlotCharacterLinkItemModel plot_character_link_item_model in plot_character_link_item_model_list)
             {
@@ -76,7 +61,7 @@ namespace Web.Data.Plots
         /// <summary>
         /// Return or set the plot ID
         /// </summary>
-        public ReferenceID PlotID { get; set; } = new();
+        public PlotID PlotID { get; set; } = new();
 
         /// <summary>
         /// Return or set the character ID
@@ -97,7 +82,7 @@ namespace Web.Data.Plots
             PlotCharacterID plot_character_id = new(plot_character_link_item_model.ID);
 
             this.ID = plot_character_id;
-            this.PlotID = new ReferenceID(plot_character_link_item_model.PlotID);
+            this.PlotID = new PlotID(plot_character_link_item_model.PlotID);
             this.CharacterID = new CharacterID(plot_character_link_item_model.CharacterID);
             this.Description = plot_character_link_item_model.Description;
             this.IsSet = plot_character_id.IsSet;
@@ -110,7 +95,7 @@ namespace Web.Data.Plots
         {
             PlotCharacterLinkItemModel plot_character_link_item_model = (PlotCharacterLinkItemModel)this.BaseModel;
 
-            plot_character_link_item_model.ID = this.CharacterID.Value;
+            plot_character_link_item_model.ID = this.ID.Value;
             plot_character_link_item_model.PlotID = this.PlotID.Value;
             plot_character_link_item_model.CharacterID = this.CharacterID.Value;
             plot_character_link_item_model.Description = this.Description;

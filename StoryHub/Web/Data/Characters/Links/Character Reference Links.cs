@@ -10,48 +10,33 @@ namespace Web.Data.Characters
         /// <summary>
         /// Retrieve all character reference link items from database
         /// </summary>
-        /// <param name="character_id"></param>
+        /// <param name="link_type"></param>
+        /// <param name="id"></param>
         /// <param name="db_context"></param>
-        public CharacterReferenceLinks(CharacterID character_id, ProgramDbContext db_context)
-            : base(character_id, db_context)
-        {
-        }
-
-        /// <summary>
-        /// Retrieve all character reference link items from database
-        /// </summary>
-        /// <param name="reference_id"></param>
-        /// <param name="db_context"></param>
-        public CharacterReferenceLinks(ReferenceID reference_id, ProgramDbContext db_context)
-            : base(reference_id, db_context)
+        public CharacterReferenceLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
+            : base(link_type, id, db_context)
         {
         }
 
         /// <summary>
         /// Retrieve all link items from database
         /// </summary>
-        /// <param name="character_id"></param>
+        /// <param name="link_type"></param>
+        /// <param name="id"></param>
         /// <param name="db_context"></param>
-        protected override void RetrieveLinks(CharacterID character_id, ProgramDbContext db_context)
+        protected override void RetrieveLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
         {
             // NOTE: Close the connection first by using ToList() instead iterating db_context.CharacterReferenceLinkItem
-            List<CharacterReferenceLinkItemModel> character_reference_link_item_model_list = db_context.CharacterReferenceLinkItem.Where(list_item => list_item.CharacterID == character_id.Value).ToList();
+            List<CharacterReferenceLinkItemModel> character_reference_link_item_model_list;
 
-            foreach (CharacterReferenceLinkItemModel character_reference_link_item_model in character_reference_link_item_model_list)
+            if (link_type == LinkType.ByLeft)
             {
-                this.Add(new CharacterReferenceLinkItem(character_reference_link_item_model));
+                character_reference_link_item_model_list = db_context.CharacterReferenceLinkItem.Where(list_item => list_item.CharacterID == id.Value).ToList();
             }
-        }
-
-        /// <summary>
-        /// Retrieve all link items from database
-        /// </summary>
-        /// <param name="reference_id"></param>
-        /// <param name="db_context"></param>
-        protected override void RetrieveLinks(ReferenceID reference_id, ProgramDbContext db_context)
-        {
-            // NOTE: Close the connection first by using ToList() instead iterating db_context.CharacterReferenceLinkItem
-            List<CharacterReferenceLinkItemModel> character_reference_link_item_model_list = db_context.CharacterReferenceLinkItem.Where(list_item => list_item.ReferenceID == reference_id.Value).ToList();
+            else
+            {
+                character_reference_link_item_model_list = db_context.CharacterReferenceLinkItem.Where(list_item => list_item.ReferenceID == id.Value).ToList();
+            }
 
             foreach (CharacterReferenceLinkItemModel character_reference_link_item_model in character_reference_link_item_model_list)
             {
@@ -110,7 +95,7 @@ namespace Web.Data.Characters
         {
             CharacterReferenceLinkItemModel character_reference_link_item_model = (CharacterReferenceLinkItemModel)this.BaseModel;
 
-            character_reference_link_item_model.ID = this.CharacterID.Value;
+            character_reference_link_item_model.ID = this.ID.Value;
             character_reference_link_item_model.CharacterID = this.CharacterID.Value;
             character_reference_link_item_model.ReferenceID = this.ReferenceID.Value;
             character_reference_link_item_model.Description = this.Description;

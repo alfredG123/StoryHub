@@ -10,37 +10,31 @@ namespace Web.Data
         where TRightID : BaseID
     {
         /// <summary>
-        /// Retrieve all link items from database
+        /// Types of retrieval for the link items
         /// </summary>
-        /// <param name="left_id"></param>
-        /// <param name="db_context"></param>
-        protected abstract void RetrieveLinks(TLeftID left_id, ProgramDbContext db_context);
-
-        /// <summary>
-        /// Retrieve all link items from database
-        /// </summary>
-        /// <param name="right_id"></param>
-        /// <param name="db_context"></param>
-        protected abstract void RetrieveLinks(TRightID right_id, ProgramDbContext db_context);
-
-        /// <summary>
-        /// Retrieve all link items from database
-        /// </summary>
-        /// <param name="left_id"></param>
-        /// <param name="db_context"></param>
-        public BaseLinks(TLeftID left_id, ProgramDbContext db_context)
+        public enum LinkType
         {
-            RetrieveLinks(left_id, db_context);
+            ByLeft,
+            ByRight,
         }
 
         /// <summary>
         /// Retrieve all link items from database
         /// </summary>
-        /// <param name="right_id"></param>
+        /// <param name="link_type"></param>
+        /// <param name="id"></param>
         /// <param name="db_context"></param>
-        public BaseLinks(TRightID right_id, ProgramDbContext db_context)
+        protected abstract void RetrieveLinks(LinkType link_type, BaseID id, ProgramDbContext db_context);
+
+        /// <summary>
+        /// Retrieve all link items from database
+        /// </summary>
+        /// <param name="link_type"></param>
+        /// <param name="id"></param>
+        /// <param name="db_context"></param>
+        public BaseLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
         {
-            RetrieveLinks(right_id, db_context);
+            RetrieveLinks(link_type, id, db_context);
         }
     }
 

@@ -11,10 +11,10 @@ namespace Web.Data.Plots
         /// Retrieve all plot plot link items from database
         /// </summary>
         /// <param name="link_type"></param>
-        /// <param name="plot_id"></param>
+        /// <param name="id"></param>
         /// <param name="db_context"></param>
-        public PlotPlotLinks(LinkType link_type, PlotID plot_id, ProgramDbContext db_context)
-            : base(link_type, plot_id, db_context)
+        public PlotPlotLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
+            : base(link_type, id, db_context)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Web.Data.Plots
         /// Retrieve all link items from database
         /// </summary>
         /// <param name="link_type"></param>
-        /// <param name="plot_id"></param>
+        /// <param name="id"></param>
         /// <param name="db_context"></param>
         protected override void RetrieveLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
         {
@@ -91,7 +91,7 @@ namespace Web.Data.Plots
 
             plot_plot_link_item_model.ID = this.ID.Value;
             plot_plot_link_item_model.PlotID = this.PlotID.Value;
-            plot_plot_link_item_model.PlotID = this.SubPlotID.Value;
+            plot_plot_link_item_model.SubPlotID = this.SubPlotID.Value;
         }
     }
 }

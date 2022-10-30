@@ -50,7 +50,7 @@ namespace Web.Data.Stories
          : BaseLinkItem<StoryID, RegionID>
     {
         /// <summary>
-        /// Load the story plot link item model
+        /// Load the story region link item model
         /// </summary>
         /// <param name="story_region_link_item_model"></param>
         public StoryRegionLinkItem(StoryRegionLinkItemModel story_region_link_item_model)
@@ -74,12 +74,12 @@ namespace Web.Data.Stories
         protected override void UpdateDataObject()
         {
             StoryRegionLinkItemModel story_region_link_item_model = (StoryRegionLinkItemModel)this.BaseModel;
-            StoryRegionID story_plot_id = new(story_region_link_item_model.ID);
+            StoryRegionID story_region_id = new(story_region_link_item_model.ID);
 
-            this.ID = story_plot_id;
+            this.ID = story_region_id;
             this.StoryID = new StoryID(story_region_link_item_model.StoryID);
             this.RegionID = new RegionID(story_region_link_item_model.RegionID);
-            this.IsSet = story_plot_id.IsSet;
+            this.IsSet = story_region_id.IsSet;
         }
 
         /// <summary>

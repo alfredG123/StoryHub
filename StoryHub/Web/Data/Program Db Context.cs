@@ -89,7 +89,7 @@ namespace Web.Data
         /// <summary>
         ///  Set up database table, Story Custom Field Link Item
         /// </summary>
-        public DbSet<StoryCustomFieldModel> StoryCustomField { get; set; }
+        public DbSet<StoryCustomFieldLinkItemModel> StoryCustomFieldLinkItem { get; set; }
 
         /// <summary>
         ///  Set up database table, Story Plot Link Item

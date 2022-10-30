@@ -1,7 +1,7 @@
 ﻿using Web.Data.ID;
 using Web.Models;
 
-namespace Web.Data.Plots
+namespace Web.Data.Regions
 {
     [Serializable()]
     public class RegionReferenceLinks

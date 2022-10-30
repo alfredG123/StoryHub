@@ -2,7 +2,7 @@
 
 namespace Web.Models
 {
-    public class StoryCustomFieldModel : BaseModel
+    public class StoryCustomFieldLinkItemModel : BaseModel
     {
         [Key]
         public override int ID { get; set; }

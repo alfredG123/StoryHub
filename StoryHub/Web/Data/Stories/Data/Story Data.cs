@@ -158,6 +158,7 @@ namespace Web.Data.Stories
             this.ID = story_id;
             this.Title = story_data_model.Title;
             this.CreationDate = story_data_model.CreationDate;
+            this.IsSet = story_id.IsSet;
         }
 
         /// <summary>

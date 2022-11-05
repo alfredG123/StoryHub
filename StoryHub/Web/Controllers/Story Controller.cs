@@ -45,6 +45,34 @@ namespace Web.Controllers
 
             return View("StoryList", story_data_list.ToPagedList(_page_number_for_story_data_list_page, GlobalMethods.PAGE_SIZE));
         }
+
+        public IActionResult Delete(string? story_id)
+        {
+            // Retrieve the ID from the form
+            StoryID id = new(StringMethods.ParseTextAsInt(story_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Story ID is not valid!");
+
+                return View("Error", error_data);
+            }
+
+            // Load the story
+            StoryData story_data = new(id, _db_context);
+            if (!story_data.IsSet)
+            {
+                ErrorData error_data = new("Story is not found!");
+
+                return View("Error", error_data);
+            }
+
+            // Delete the story from the database
+            story_data.Delete(_db_context);
+
+            _miscellaneous_controller.DisplaySuccessMessage("story is deleted successfully.", TempData);
+
+            return RedirectToAction("Index");
+        }
         #endregion
 
         #region "Story Detail"

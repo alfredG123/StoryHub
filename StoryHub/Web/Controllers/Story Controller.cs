@@ -43,7 +43,7 @@ namespace Web.Controllers
             // Adjust the page number to fit the list, and store the page number in case the page refresh due to actions such as deletion
             _page_number_for_story_data_list_page = GlobalMethods.GetValidPageNumber(page_number, story_data_list.Count);
 
-            return View("StoryList", story_data_list.ToPagedList(_page_number_for_story_data_list_page, GlobalMethods.PAGE_SIZE));
+            return View(GlobalWebPages.STORY_LIST_PAGE, story_data_list.ToPagedList(_page_number_for_story_data_list_page, GlobalMethods.PAGE_SIZE));
         }
 
         public IActionResult Delete(string? story_id)
@@ -54,7 +54,7 @@ namespace Web.Controllers
             {
                 ErrorData error_data = new("Story ID is not valid!");
 
-                return View("Error", error_data);
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
             }
 
             // Load the story
@@ -63,7 +63,7 @@ namespace Web.Controllers
             {
                 ErrorData error_data = new("Story is not found!");
 
-                return View("Error", error_data);
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
             }
 
             // Delete the story from the database
@@ -71,7 +71,7 @@ namespace Web.Controllers
 
             _miscellaneous_controller.DisplaySuccessMessage("story is deleted successfully.", TempData);
 
-            return RedirectToAction("Index");
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }
         #endregion
 
@@ -81,7 +81,7 @@ namespace Web.Controllers
             // Create a new story data to set up the form
             StoryData story_data = new();
 
-            return View("StoryDetail", StoryDetailViewModel.ConvertToStoryDetailViewModel(story_data));
+            return View(GlobalWebPages.STORY_DETAIL_PAGE, StoryDetailViewModel.ConvertToStoryDetailViewModel(story_data));
         }
 
         public IActionResult Edit(string? story_id)
@@ -92,7 +92,7 @@ namespace Web.Controllers
             {
                 ErrorData error_data = new("Story ID is not invalid!");
 
-                return View("Error", error_data);
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
             }
 
             // Retrieve the story data from the database
@@ -101,10 +101,10 @@ namespace Web.Controllers
             {
                 ErrorData error_data = new("Story is not found!");
 
-                return View("Error", error_data);
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
             }
 
-            return View("StoryDetail", StoryDetailViewModel.ConvertToStoryDetailViewModel(story_data));
+            return View(GlobalWebPages.STORY_DETAIL_PAGE, StoryDetailViewModel.ConvertToStoryDetailViewModel(story_data));
         }
 
         [HttpPost]
@@ -120,7 +120,7 @@ namespace Web.Controllers
                 _miscellaneous_controller.RaiseError(story_data.ErrorMessage, ModelState, TempData);
 
                 // Reload the detail page to enter the data again
-                return View("StoryDetail", StoryDetailViewModel.ConvertToStoryDetailViewModel(story_data));
+                return View(GlobalWebPages.STORY_DETAIL_PAGE, StoryDetailViewModel.ConvertToStoryDetailViewModel(story_data));
             }
 
             // Save the story
@@ -130,7 +130,7 @@ namespace Web.Controllers
             _miscellaneous_controller.DisplaySuccessMessage("The story is saved!", TempData);
 
             // Return to the story list page
-            return RedirectToAction("Index");
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }
         #endregion
     }

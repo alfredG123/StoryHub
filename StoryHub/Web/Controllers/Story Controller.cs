@@ -133,5 +133,30 @@ namespace Web.Controllers
             return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }
         #endregion
+
+        #region "Story Content Menu"
+        public IActionResult ViewContentMenu(string? story_id)
+        {
+            // Retrieve the ID from the form
+            StoryID id = new(StringMethods.ParseTextAsInt(story_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Story ID is not invalid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Retrieve the story data from the database
+            StoryData story_data = new(id, _db_context);
+            if (!story_data.IsSet)
+            {
+                ErrorData error_data = new("Story is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            return View(GlobalWebPages.STORY_CONTENT_MENU_PAGE, StoryDetailViewModel.ConvertToStoryDetailViewModel(story_data));
+        }
+        #endregion
     }
 }

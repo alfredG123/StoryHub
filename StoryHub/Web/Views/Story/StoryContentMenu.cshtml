@@ -1,0 +1,57 @@
+﻿@using Web.Data.Stories
+@using Web.Models
+
+@model StoryDetailViewModel
+
+@{
+    ViewData["Title"] = "Story Content Menu";
+}
+
+<h1>
+    @Model?.Title
+</h1>
+
+<hr />
+
+<div style="align-content:center;">
+    <div class="row">
+        @Html.ActionLink("Characters", "Index", "Character",
+        new {},
+        new {
+        @class = "btn btn-primary"
+        })
+    </div>
+
+    <div class="row">
+        @Html.ActionLink("Regions", "Index", "Region",
+        new {},
+        new {
+        @class = "btn btn-primary"
+        })
+    </div>
+
+    <div class="row">
+        @Html.ActionLink("Plots", "Index", "Plot",
+        new {},
+        new {
+        @class = "btn btn-primary"
+        })
+    </div>
+
+    <div class="row">
+        @Html.ActionLink("Custom Fields", "Index", "CustomField",
+        new {},
+        new {
+        @class = "btn btn-primary"
+        })
+    </div>
+
+    <div class="row">
+        @Html.ActionLink(
+        "Back", "Index", "Story",
+        new {},
+        new {
+        @class = "btn btn-secondary",
+        })
+    </div>
+</div>

@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data;
+using Web.Data.Regions;
+using Web.Miscellaneous;
+using X.PagedList;
 
 namespace Web.Controllers
 {
@@ -18,9 +21,27 @@ namespace Web.Controllers
         }
 
         #region "Region List"
-        public IActionResult Index()
+        public IActionResult Index(int? page_number)
         {
-            return View();
+            RegionDataList? region_data_list = null;
+
+            // If the region data list is not retrieve yet, load all the region data from the database
+            if (region_data_list == null)
+            {
+                // Load all the region data from the database
+                region_data_list = new(_db_context);
+            }
+
+            // If the page number is not specified, use the last stored page number
+            if (page_number == null)
+            {
+                page_number = _page_number_for_region_data_list_page;
+            }
+
+            // Adjust the page number to fit the list, and store the page number in case the page refresh due to actions such as deletion
+            _page_number_for_region_data_list_page = GlobalMethods.GetValidPageNumber(page_number, region_data_list.Count);
+
+            return View(GlobalWebPages.REGION_LIST_PAGE, region_data_list.ToPagedList(_page_number_for_region_data_list_page, GlobalMethods.PAGE_SIZE));
         }
         #endregion
     }

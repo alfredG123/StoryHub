@@ -1,20 +1,20 @@
 ﻿@using Web.Data
-@using Web.Data.Stories
+@using Web.Data.Regions
 @using Web.Enumerations
 @using Web.Miscellaneous
 @using X.PagedList.Mvc.Core
 
-@model X.PagedList.IPagedList<StoryData>
+@model X.PagedList.IPagedList<RegionData>
 
 @{
-    ViewData["Title"] = "Stories";
+    ViewData["Title"] = "Regions";
 }
 
 <script type="text/javascript">
 
     // Ask the user to confirm the deletion
     function ComfirmDeletion(){
-        return (ConfirmAction("Are you sure you want to delete the story?"))
+        return (ConfirmAction("Are you sure you want to delete the region?"))
     }
 
 </script>
@@ -28,7 +28,7 @@
 <div class="row">
     <div class="col-xl-2">
         <div class="row">
-            @Html.ActionLink("Create New Story", "Create", "Story", new {}, new {
+            @Html.ActionLink("Create New Region", "Create", "Region", new {}, new {
             @class = "btn btn-primary"
             })
         </div>
@@ -44,7 +44,7 @@
                         Row #
                     </th>
                     <th>
-                        Title
+                        Name
                     </th>
                     <th class="action-buttons-column">
                         Actions
@@ -56,79 +56,79 @@
                 {
                     int row_number = 0;
 
-                    foreach (var story in Model)
+                    foreach (var region in Model)
                     {
                         row_number++;
 
-                        <tr>
-                            <td class="row-number-column">
+                                        <tr>
+                                            <td class="row-number-column">
                                 @GlobalMethods.GetRowNumberForPageNumber(row_number, Model.PageNumber)
-                            </td>
-                            <td>
-                                @story.Title
-                            </td>
-                            <td class="action-buttons-column">
-                                <div class="row">
-                                    @Html.ActionLink("View", "ViewContentMenu", "Story",
+                                            </td>
+                                            <td>
+                                @region.Name
+                                            </td>
+                                            <td class="action-buttons-column">
+                                                <div class="row">
+                                    @Html.ActionLink("View", "ViewDetail", "Region",
                             new {
-                            @story_id = @story.StoryID.Value
+                            @region_id = @region.RegionID.Value
                             },
                             new {
                             @class = "btn btn-success"
                             })
-                                </div>
+                                                </div>
 
-                                <div class="row">
-                                    @Html.ActionLink("Edit", "Edit", "Story",
+                                                <div class="row">
+                                    @Html.ActionLink("Edit", "Edit", "Region",
                             new {
-                            @story_id = @story.StoryID.Value
+                            @region_id = @region.RegionID.Value
                             },
                             new {
                             @class = "btn btn-primary"
                             })
-                                </div>
+                                                </div>
 
-                                <div class="row">
-                                    @Html.ActionLink("Delete", "Delete", "Story",
+                                                <div class="row">
+                                    @Html.ActionLink("Delete", "Delete", "Region",
                             new {
-                            @story_id = @story.StoryID.Value,
+                            @region_id = @region.RegionID.Value,
                             },
                             new {
                             @class = "btn btn-danger",
                             @onclick="return ComfirmDeletion();"
                             })
-                                </div>
-                            </td>
-                        </tr>
+                                                </div>
+                                            </td>
+                                        </tr>
                     }
                 }
                 else
                 {
-                    <tr>
-                        <td colspan="9">
-                            <label>
-                                There are no stories.
-                            </label>
-                        </td>
-                    </tr>
+                            <tr>
+                                <td colspan="9">
+                                    <label>
+                                        There are no regions.
+                                    </label>
+                                </td>
+                            </tr>
                 }
             </tbody>
         </table>
 
         @if (Model?.Count > 0)
         {
-            <div class="row">
-                <div id="div_pager" class="col-xl-6">
+                    <div class="row">
+                        <div id="div_pager" class="col-xl-6">
                     @Html.PagedListPager( Model, page_number => Url.Action("Index", new { page_number }), new X.PagedList.Web.Common.PagedListRenderOptions{
                 LiElementClasses = new [] { "page-item" },
                 PageClasses = new [] {"page-link"},
                 })
-                </div>
+                        </div>
 
-                <div class="col-xl-6 text-end">
+                        <div class="col-xl-6 text-end">
                     @GlobalMethods.GetPagingText(Model?.PageNumber, Model?.PageCount)
-                </div>
-            </div>
+                        </div>
+                    </div>
         }
     </div>
 </div>

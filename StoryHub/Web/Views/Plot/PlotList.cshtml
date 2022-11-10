@@ -1,20 +1,20 @@
 ﻿@using Web.Data
-@using Web.Data.Stories
+@using Web.Data.Plots
 @using Web.Enumerations
 @using Web.Miscellaneous
 @using X.PagedList.Mvc.Core
 
-@model X.PagedList.IPagedList<StoryData>
+@model X.PagedList.IPagedList<PlotData>
 
 @{
-    ViewData["Title"] = "Stories";
+    ViewData["Title"] = "Plots";
 }
 
 <script type="text/javascript">
 
     // Ask the user to confirm the deletion
     function ComfirmDeletion(){
-        return (ConfirmAction("Are you sure you want to delete the story?"))
+        return (ConfirmAction("Are you sure you want to delete the plot?"))
     }
 
 </script>
@@ -28,7 +28,7 @@
 <div class="row">
     <div class="col-xl-2">
         <div class="row">
-            @Html.ActionLink("Create New Story", "Create", "Story", new {}, new {
+            @Html.ActionLink("Create New Plot", "Create", "Plot", new {}, new {
             @class = "btn btn-primary"
             })
         </div>
@@ -56,7 +56,7 @@
                 {
                     int row_number = 0;
 
-                    foreach (var story in Model)
+                    foreach (var plot in Model)
                     {
                         row_number++;
 
@@ -65,13 +65,13 @@
                                 @GlobalMethods.GetRowNumberForPageNumber(row_number, Model.PageNumber)
                             </td>
                             <td>
-                                @story.Title
+                                @plot.Title
                             </td>
                             <td class="action-buttons-column">
                                 <div class="row">
-                                    @Html.ActionLink("View", "ViewContentMenu", "Story",
+                                    @Html.ActionLink("View", "ViewContentMenu", "Plot",
                             new {
-                            @story_id = @story.StoryID.Value
+                            @plot_id = @plot.PlotID.Value
                             },
                             new {
                             @class = "btn btn-success"
@@ -79,9 +79,9 @@
                                 </div>
 
                                 <div class="row">
-                                    @Html.ActionLink("Edit", "Edit", "Story",
+                                    @Html.ActionLink("Edit", "Edit", "Plot",
                             new {
-                            @story_id = @story.StoryID.Value
+                            @plot_id = @plot.PlotID.Value
                             },
                             new {
                             @class = "btn btn-primary"
@@ -89,9 +89,9 @@
                                 </div>
 
                                 <div class="row">
-                                    @Html.ActionLink("Delete", "Delete", "Story",
+                                    @Html.ActionLink("Delete", "Delete", "Plot",
                             new {
-                            @story_id = @story.StoryID.Value,
+                            @plot_id = @plot.PlotID.Value,
                             },
                             new {
                             @class = "btn btn-danger",
@@ -107,7 +107,7 @@
                     <tr>
                         <td colspan="9">
                             <label>
-                                There are no stories.
+                                There are no plots.
                             </label>
                         </td>
                     </tr>

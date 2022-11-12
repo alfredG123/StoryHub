@@ -1,0 +1,78 @@
+﻿@using Web.Data.Characters
+@using Web.Enumerations
+@using Web.Miscellaneous
+@using Web.Models
+
+@model CharacterDetailViewModel
+
+@{
+    ViewData["Title"] = "Character Details";
+}
+
+@using (Html.BeginForm("SaveCharacterDetail", "Character", FormMethod.Post))
+{
+    <h1>
+        @ViewData["Title"]
+    </h1>
+
+    <hr />
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Name
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Name,
+        Model.Name,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Description
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Description,
+        Model.Description,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        @Html.HiddenFor(
+        Model => Model.CharacterID,
+        Model.CharacterID
+    )
+    }
+
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+
+            @Html.ActionLink(
+        "Back", "Index", "Character",
+        new {},
+        new {
+        @class = "btn btn-secondary",
+        })
+        </div>
+    </div>
+}

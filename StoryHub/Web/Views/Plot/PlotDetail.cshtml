@@ -1,0 +1,150 @@
+﻿@using Web.Data.Stories
+@using Web.Enumerations
+@using Web.Miscellaneous
+@using Web.Models
+
+@model PlotDetailViewModel
+
+@{
+    ViewData["Title"] = "Plot Details";
+}
+
+@using (Html.BeginForm("SavePlotDetail", "Plot", FormMethod.Post))
+{
+    <h1>
+        @ViewData["Title"]
+    </h1>
+
+    <hr />
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Drama Type
+            </label>
+
+            <div class="col-xl-4">
+                @Html.DropDownListFor(
+        Model => Model.DramaType,
+        Model.DramaTypeList.Select(x => new SelectListItem{ Text = x.Text, Value = x.Value.ToString()}),
+        new {
+        @class="form-select",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Plot Type
+            </label>
+
+            <div class="col-xl-4">
+                @Html.DropDownListFor(
+        Model => Model.PlotType,
+        Model.PlotTypeList.Select(x => new SelectListItem{ Text = x.Text, Value = x.Value.ToString()}),
+        new {
+        @class="form-select",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Title
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Title,
+        Model.Title,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Goal
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Goal,
+        Model.Goal,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Scene
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Scene,
+        Model.Scene,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Content
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Content,
+        Model.Content,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        @Html.HiddenFor(
+        Model => Model.PlotID,
+        Model.PlotID
+    )
+    }
+
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+
+            @Html.ActionLink(
+        "Back", "Index", "Plot",
+        new {},
+        new {
+        @class = "btn btn-secondary",
+        })
+        </div>
+    </div>
+}

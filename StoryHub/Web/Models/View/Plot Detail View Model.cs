@@ -1,6 +1,8 @@
-﻿using Web.Data;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Web.Data;
 using Web.Data.ID;
 using Web.Data.Plots;
+using Web.Miscellaneous;
 
 namespace Web.Models
 {
@@ -42,6 +44,16 @@ namespace Web.Models
         public string Content { get; set; } = string.Empty;
 
         /// <summary>
+        /// Return or set the drame options
+        /// </summary>
+        public List<SelectListItem> DramaTypeList { get; set; } = new();
+
+        /// <summary>
+        /// Return or set the plot options
+        /// </summary>
+        public List<SelectListItem> PlotTypeList { get; set; } = new();
+
+        /// <summary>
         /// Convert the plot data to the view model
         /// </summary>
         /// <param name="plot_data"></param>
@@ -58,6 +70,10 @@ namespace Web.Models
             plot_detail_view_model.Goal = plot_data.Goal;
             plot_detail_view_model.Scene = plot_data.Scene;
             plot_detail_view_model.Content = plot_data.Content;
+
+            // Create lists for the dropdowns
+            plot_detail_view_model.DramaTypeList = HTMLControlMethods.CreateDramaTypeList(plot_data.DramaType);
+            plot_detail_view_model.PlotTypeList = HTMLControlMethods.CreatePlotTypeList(plot_data.PlotType);
 
             return (plot_detail_view_model);
         }

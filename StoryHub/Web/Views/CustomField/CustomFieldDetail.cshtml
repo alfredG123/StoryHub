@@ -1,0 +1,78 @@
+﻿@using Web.Data.CustomFields
+@using Web.Enumerations
+@using Web.Miscellaneous
+@using Web.Models
+
+@model CustomFieldDetailViewModel
+
+@{
+    ViewData["Title"] = "Custom Field Details";
+}
+
+@using (Html.BeginForm("SaveCustomFieldDetail", "CustomField", FormMethod.Post))
+{
+    <h1>
+        @ViewData["Title"]
+    </h1>
+
+    <hr />
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Title
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.FieldName,
+        Model.FieldName,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Content
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Content,
+        Model.Content,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        @Html.HiddenFor(
+        Model => Model.CustomFieldID,
+        Model.CustomFieldID
+    )
+    }
+
+    <div class="row">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+
+            @Html.ActionLink(
+        "Back", "Index", "CustomField",
+        new {},
+        new {
+        @class = "btn btn-secondary",
+        })
+        </div>
+    </div>
+}

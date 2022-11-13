@@ -69,7 +69,7 @@ namespace Web.Controllers
             // Delete the story from the database
             story_data.Delete(_db_context);
 
-            _miscellaneous_controller.DisplaySuccessMessage("story is deleted successfully.", TempData);
+            _miscellaneous_controller.DisplaySuccessMessage("Story is deleted successfully.", TempData);
 
             return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }

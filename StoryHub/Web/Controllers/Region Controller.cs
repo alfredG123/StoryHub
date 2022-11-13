@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data;
+using Web.Data.ID;
 using Web.Data.Regions;
 using Web.Miscellaneous;
+using Web.Models;
 using X.PagedList;
 
 namespace Web.Controllers
@@ -42,6 +44,93 @@ namespace Web.Controllers
             _page_number_for_region_data_list_page = GlobalMethods.GetValidPageNumber(page_number, region_data_list.Count);
 
             return View(GlobalWebPages.REGION_LIST_PAGE, region_data_list.ToPagedList(_page_number_for_region_data_list_page, GlobalMethods.PAGE_SIZE));
+        }
+
+        public IActionResult Delete(string? region_id)
+        {
+            // Retrieve the ID from the form
+            RegionID id = new(StringMethods.ParseTextAsInt(region_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Region ID is not valid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Load the region
+            RegionData region_data = new(id, _db_context);
+            if (!region_data.IsSet)
+            {
+                ErrorData error_data = new("Region is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Delete the region from the database
+            region_data.Delete(_db_context);
+
+            _miscellaneous_controller.DisplaySuccessMessage("Region is deleted successfully.", TempData);
+
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
+        }
+        #endregion
+
+        #region "Region Detail"
+        public IActionResult Create()
+        {
+            // Create a new region data to set up the form
+            RegionData region_data = new();
+
+            return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data));
+        }
+
+        public IActionResult Edit(string? region_id)
+        {
+            // Retrieve the ID from the form
+            RegionID id = new(StringMethods.ParseTextAsInt(region_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Region ID is not invalid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Retrieve the region data from the database
+            RegionData region_data = new(id, _db_context);
+            if (!region_data.IsSet)
+            {
+                ErrorData error_data = new("Region is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveRegionDetail(RegionDetailViewModel region_detail_view_model)
+        {
+            RegionData region_data = RegionDetailViewModel.ConvertToRegionData(region_detail_view_model, _db_context);
+
+            // Verify the region is valid
+            // If fail, reload the page
+            if (!region_data.ValidateData(_db_context))
+            {
+                _miscellaneous_controller.RaiseError(region_data.ErrorMessage, ModelState, TempData);
+
+                // Reload the detail page to enter the data again
+                return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data));
+            }
+
+            // Save the region
+            region_data.Save(_db_context);
+
+            // Create a pop-up message to notify the user
+            _miscellaneous_controller.DisplaySuccessMessage("The region is saved!", TempData);
+
+            // Return to the region list page
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }
         #endregion
     }

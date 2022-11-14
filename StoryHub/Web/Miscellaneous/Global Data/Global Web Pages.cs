@@ -3,6 +3,7 @@
     public static class GlobalWebPages
     {
         // Web pages
+        public const string CHARACTER_DETAIL_PAGE = "CharacterDetail";
         public const string CHARACTER_LIST_PAGE = "CharacterList";
         public const string CUSTOM_FIELD_LIST_PAGE = "CustomFieldList";
         public const string ERROR_PAGE = "Error";

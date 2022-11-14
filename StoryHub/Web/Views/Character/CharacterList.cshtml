@@ -69,16 +69,6 @@
                             </td>
                             <td class="action-buttons-column">
                                 <div class="row">
-                                    @Html.ActionLink("View", "ViewDetail", "Character",
-                            new {
-                            @character_id = @character.CharacterID.Value
-                            },
-                            new {
-                            @class = "btn btn-success"
-                            })
-                                </div>
-
-                                <div class="row">
                                     @Html.ActionLink("Edit", "Edit", "Character",
                             new {
                             @character_id = @character.CharacterID.Value

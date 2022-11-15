@@ -69,16 +69,6 @@
                             </td>
                             <td class="action-buttons-column">
                                 <div class="row">
-                                    @Html.ActionLink("View", "ViewDetail", "CustomField",
-                            new {
-                            @custom_field_id = @custom_field.CustomFieldID.Value
-                            },
-                            new {
-                            @class = "btn btn-success"
-                            })
-                                </div>
-
-                                <div class="row">
                                     @Html.ActionLink("Edit", "Edit", "CustomField",
                             new {
                             @custom_field_id = @custom_field.CustomFieldID.Value

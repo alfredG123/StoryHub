@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data;
 using Web.Data.CustomFields;
+using Web.Data.ID;
 using Web.Miscellaneous;
+using Web.Models;
 using X.PagedList;
 
 namespace Web.Controllers
@@ -42,6 +44,93 @@ namespace Web.Controllers
             _page_number_for_custom_field_data_list_page = GlobalMethods.GetValidPageNumber(page_number, custom_field_data_list.Count);
 
             return View(GlobalWebPages.CUSTOM_FIELD_LIST_PAGE, custom_field_data_list.ToPagedList(_page_number_for_custom_field_data_list_page, GlobalMethods.PAGE_SIZE));
+        }
+
+        public IActionResult Delete(string? custom_field_id)
+        {
+            // Retrieve the ID from the form
+            CustomFieldID id = new(StringMethods.ParseTextAsInt(custom_field_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Custom Field ID is not valid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Load the custom field
+            CustomFieldData custom_field_data = new(id, _db_context);
+            if (!custom_field_data.IsSet)
+            {
+                ErrorData error_data = new("Custom Field is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Delete the custom field from the database
+            custom_field_data.Delete(_db_context);
+
+            _miscellaneous_controller.DisplaySuccessMessage("Custom Field is deleted successfully.", TempData);
+
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
+        }
+        #endregion
+
+        #region "Custom Field Detail"
+        public IActionResult Create()
+        {
+            // Create a new custom field data to set up the form
+            CustomFieldData custom_field_data = new();
+
+            return View(GlobalWebPages.CUSTOM_FIELD_DETAIL_PAGE, CustomFieldDetailViewModel.ConvertToCustomFieldDetailViewModel(custom_field_data));
+        }
+
+        public IActionResult Edit(string? custom_field_id)
+        {
+            // Retrieve the ID from the form
+            CustomFieldID id = new(StringMethods.ParseTextAsInt(custom_field_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Custom Field ID is not invalid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Retrieve the custom field data from the database
+            CustomFieldData custom_field_data = new(id, _db_context);
+            if (!custom_field_data.IsSet)
+            {
+                ErrorData error_data = new("Custom Field is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            return View(GlobalWebPages.CUSTOM_FIELD_DETAIL_PAGE, CustomFieldDetailViewModel.ConvertToCustomFieldDetailViewModel(custom_field_data));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveCustomFieldDetail(CustomFieldDetailViewModel custom_field_detail_view_model)
+        {
+            CustomFieldData custom_field_data = CustomFieldDetailViewModel.ConvertToCustomFieldData(custom_field_detail_view_model, _db_context);
+
+            // Verify the custom field is valid
+            // If fail, reload the page
+            if (!custom_field_data.ValidateData(_db_context))
+            {
+                _miscellaneous_controller.RaiseError(custom_field_data.ErrorMessage, ModelState, TempData);
+
+                // Reload the detail page to enter the data again
+                return View(GlobalWebPages.CUSTOM_FIELD_DETAIL_PAGE, CustomFieldDetailViewModel.ConvertToCustomFieldDetailViewModel(custom_field_data));
+            }
+
+            // Save the custom field
+            custom_field_data.Save(_db_context);
+
+            // Create a pop-up message to notify the user
+            _miscellaneous_controller.DisplaySuccessMessage("The custom field is saved!", TempData);
+
+            // Return to the custom field list page
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }
         #endregion
     }

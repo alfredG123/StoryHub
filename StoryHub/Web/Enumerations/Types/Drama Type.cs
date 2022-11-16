@@ -4,7 +4,7 @@
     public class DramaType
         : BaseEnumeration
     {
-        public readonly static DramaType None = new(1, "Undefine");
+        public readonly static DramaType None = new(0, "Undefine");
 
         public readonly static DramaType Introduction = new(1, "Introduction");
         public readonly static DramaType Incident = new(2, "Incident");

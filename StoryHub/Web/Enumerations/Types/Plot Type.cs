@@ -4,7 +4,7 @@
     public class PlotType
         : BaseEnumeration
     {
-        public readonly static PlotType None = new(1, "Undefine");
+        public readonly static PlotType None = new(0, "Undefine");
 
         public readonly static PlotType Volume = new(1, "Volume");
         public readonly static PlotType Chapter = new(2, "Chapter");

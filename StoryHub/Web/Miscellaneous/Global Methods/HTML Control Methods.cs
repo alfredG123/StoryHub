@@ -18,7 +18,10 @@ namespace Web.Miscellaneous
             // For each drama type, create a list item
             foreach (DramaType drama_type in DramaType.GetAllDramaTypes())
             {
-                selection_list.Add(new SelectListItem(text: drama_type.Text, value: drama_type.Value.ToString(), selected: drama_type == selected_drama_type));
+                if (drama_type != DramaType.None)
+                {
+                    selection_list.Add(new SelectListItem(text: drama_type.Text, value: drama_type.Value.ToString(), selected: drama_type == selected_drama_type));
+                }
             }
 
             return (selection_list);
@@ -37,7 +40,10 @@ namespace Web.Miscellaneous
             // For each plot type for sorting the artifact combinations, create a list item excepting none
             foreach (PlotType plot_type in PlotType.GetAllPlotTypes())
             {
-                selection_list.Add(new SelectListItem(text: plot_type.Text, value: plot_type.Value.ToString(), selected: plot_type == selected_plot_type));
+                if (plot_type != PlotType.None)
+                {
+                    selection_list.Add(new SelectListItem(text: plot_type.Text, value: plot_type.Value.ToString(), selected: plot_type == selected_plot_type));
+                }
             }
 
             return (selection_list);

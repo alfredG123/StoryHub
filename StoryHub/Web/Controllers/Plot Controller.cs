@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data;
+using Web.Data.ID;
 using Web.Data.Plots;
 using Web.Miscellaneous;
+using Web.Models;
 using X.PagedList;
 
 namespace Web.Controllers
@@ -42,6 +44,93 @@ namespace Web.Controllers
             _page_number_for_plot_data_list_page = GlobalMethods.GetValidPageNumber(page_number, plot_data_list.Count);
 
             return View(GlobalWebPages.PLOT_LIST_PAGE, plot_data_list.ToPagedList(_page_number_for_plot_data_list_page, GlobalMethods.PAGE_SIZE));
+        }
+
+        public IActionResult Delete(string? plot_id)
+        {
+            // Retrieve the ID from the form
+            PlotID id = new(StringMethods.ParseTextAsInt(plot_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Plot ID is not valid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Load the plot
+            PlotData plot_data = new(id, _db_context);
+            if (!plot_data.IsSet)
+            {
+                ErrorData error_data = new("Plot is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Delete the plot from the database
+            plot_data.Delete(_db_context);
+
+            _miscellaneous_controller.DisplaySuccessMessage("Plot is deleted successfully.", TempData);
+
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
+        }
+        #endregion
+
+        #region "Plot Detail"
+        public IActionResult Create()
+        {
+            // Create a new plot data to set up the form
+            PlotData plot_data = new();
+
+            return View(GlobalWebPages.PLOT_DETAIL_PAGE, PlotDetailViewModel.ConvertToPlotDetailViewModel(plot_data));
+        }
+
+        public IActionResult Edit(string? plot_id)
+        {
+            // Retrieve the ID from the form
+            PlotID id = new(StringMethods.ParseTextAsInt(plot_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Plot ID is not invalid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Retrieve the plot data from the database
+            PlotData plot_data = new(id, _db_context);
+            if (!plot_data.IsSet)
+            {
+                ErrorData error_data = new("Plot is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            return View(GlobalWebPages.PLOT_DETAIL_PAGE, PlotDetailViewModel.ConvertToPlotDetailViewModel(plot_data));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SavePlotDetail(PlotDetailViewModel plot_detail_view_model)
+        {
+            PlotData plot_data = PlotDetailViewModel.ConvertToPlotData(plot_detail_view_model, _db_context);
+
+            // Verify the plot is valid
+            // If fail, reload the page
+            if (!plot_data.ValidateData(_db_context))
+            {
+                _miscellaneous_controller.RaiseError(plot_data.ErrorMessage, ModelState, TempData);
+
+                // Reload the detail page to enter the data again
+                return View(GlobalWebPages.PLOT_DETAIL_PAGE, PlotDetailViewModel.ConvertToPlotDetailViewModel(plot_data));
+            }
+
+            // Save the plot
+            plot_data.Save(_db_context);
+
+            // Create a pop-up message to notify the user
+            _miscellaneous_controller.DisplaySuccessMessage("The plot is saved!", TempData);
+
+            // Return to the plot list page
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }
         #endregion
     }

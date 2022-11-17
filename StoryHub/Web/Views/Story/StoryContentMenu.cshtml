@@ -47,6 +47,14 @@
     </div>
 
     <div class="row">
+        @Html.ActionLink("References", "Index", "Reference",
+        new {},
+        new {
+        @class = "btn btn-primary"
+        })
+    </div>
+
+    <div class="row">
         @Html.ActionLink(
         "Back", "Index", "Story",
         new {},

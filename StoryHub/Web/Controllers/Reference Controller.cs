@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data;
+using Web.Data.ID;
 using Web.Data.References;
 using Web.Miscellaneous;
+using Web.Models;
 using X.PagedList;
 
 namespace Web.Controllers
@@ -42,6 +44,93 @@ namespace Web.Controllers
             _page_number_for_reference_data_list_page = GlobalMethods.GetValidPageNumber(page_number, reference_data_list.Count);
 
             return View(GlobalWebPages.REFERENCE_LIST_PAGE, reference_data_list.ToPagedList(_page_number_for_reference_data_list_page, GlobalMethods.PAGE_SIZE));
+        }
+
+        public IActionResult Delete(string? reference_id)
+        {
+            // Retrieve the ID from the form
+            ReferenceID id = new(StringMethods.ParseTextAsInt(reference_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Reference ID is not valid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Load the reference
+            ReferenceData reference_data = new(id, _db_context);
+            if (!reference_data.IsSet)
+            {
+                ErrorData error_data = new("Reference is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Delete the reference from the database
+            reference_data.Delete(_db_context);
+
+            _miscellaneous_controller.DisplaySuccessMessage("Reference is deleted successfully.", TempData);
+
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
+        }
+        #endregion
+
+        #region "Reference Detail"
+        public IActionResult Create()
+        {
+            // Create a new reference data to set up the form
+            ReferenceData reference_data = new();
+
+            return View(GlobalWebPages.REFERENCE_DETAIL_PAGE, ReferenceDetailViewModel.ConvertToReferencenDetailViewModel(reference_data));
+        }
+
+        public IActionResult Edit(string? reference_id)
+        {
+            // Retrieve the ID from the form
+            ReferenceID id = new(StringMethods.ParseTextAsInt(reference_id));
+            if (!id.IsSet)
+            {
+                ErrorData error_data = new("Reference ID is not invalid!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            // Retrieve the reference data from the database
+            ReferenceData reference_data = new(id, _db_context);
+            if (!reference_data.IsSet)
+            {
+                ErrorData error_data = new("Reference is not found!");
+
+                return View(GlobalWebPages.ERROR_PAGE, error_data);
+            }
+
+            return View(GlobalWebPages.REFERENCE_DETAIL_PAGE, ReferenceDetailViewModel.ConvertToReferencenDetailViewModel(reference_data));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveReferenceDetail(ReferenceDetailViewModel reference_detail_view_model)
+        {
+            ReferenceData reference_data = ReferenceDetailViewModel.ConvertToReferenceData(reference_detail_view_model, _db_context);
+
+            // Verify the reference is valid
+            // If fail, reload the page
+            if (!reference_data.ValidateData(_db_context))
+            {
+                _miscellaneous_controller.RaiseError(reference_data.ErrorMessage, ModelState, TempData);
+
+                // Reload the detail page to enter the data again
+                return View(GlobalWebPages.REFERENCE_DETAIL_PAGE, ReferenceDetailViewModel.ConvertToReferencenDetailViewModel(reference_data));
+            }
+
+            // Save the reference
+            reference_data.Save(_db_context);
+
+            // Create a pop-up message to notify the user
+            _miscellaneous_controller.DisplaySuccessMessage("The reference is saved!", TempData);
+
+            // Return to the reference list page
+            return RedirectToAction(GlobalWebPages.INDEX_ACTION);
         }
         #endregion
     }

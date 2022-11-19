@@ -12,6 +12,7 @@ namespace Web.Controllers
     {
         private readonly ProgramDbContext _db_context;
         private readonly MiscellaneousController _miscellaneous_controller;
+        private int _story_id;
 
         // Paging variables
         private static int _page_number_for_region_data_list_page = 1;
@@ -23,7 +24,7 @@ namespace Web.Controllers
         }
 
         #region "Region List"
-        public IActionResult Index(int? page_number)
+        public IActionResult Index(int? story_id, int? page_number)
         {
             RegionDataList? region_data_list = null;
 
@@ -42,6 +43,13 @@ namespace Web.Controllers
 
             // Adjust the page number to fit the list, and store the page number in case the page refresh due to actions such as deletion
             _page_number_for_region_data_list_page = GlobalMethods.GetValidPageNumber(page_number, region_data_list.Count);
+
+            if (story_id != null)
+            {
+                _story_id = (int)story_id;
+            }
+
+            this.ViewBag.StoryID = _story_id;
 
             return View(GlobalWebPages.REGION_LIST_PAGE, region_data_list.ToPagedList(_page_number_for_region_data_list_page, GlobalMethods.PAGE_SIZE));
         }

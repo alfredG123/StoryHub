@@ -60,15 +60,15 @@
                     {
                         row_number++;
 
-                                        <tr>
-                                            <td class="row-number-column">
+                        <tr>
+                            <td class="row-number-column">
                                 @GlobalMethods.GetRowNumberForPageNumber(row_number, Model.PageNumber)
-                                            </td>
-                                            <td>
+                            </td>
+                            <td>
                                 @region.Name
-                                            </td>
-                                            <td class="action-buttons-column">
-                                                <div class="row">
+                            </td>
+                            <td class="action-buttons-column">
+                                <div class="row">
                                     @Html.ActionLink("Edit", "Edit", "Region",
                             new {
                             @region_id = @region.RegionID.Value
@@ -76,9 +76,9 @@
                             new {
                             @class = "btn btn-primary"
                             })
-                                                </div>
+                                </div>
 
-                                                <div class="row">
+                                <div class="row">
                                     @Html.ActionLink("Delete", "Delete", "Region",
                             new {
                             @region_id = @region.RegionID.Value,
@@ -87,38 +87,51 @@
                             @class = "btn btn-danger",
                             @onclick="return ComfirmDeletion();"
                             })
-                                                </div>
-                                            </td>
-                                        </tr>
+                                </div>
+                            </td>
+                        </tr>
                     }
                 }
                 else
                 {
-                            <tr>
-                                <td colspan="9">
-                                    <label>
-                                        There are no regions.
-                                    </label>
-                                </td>
-                            </tr>
+                    <tr>
+                        <td colspan="9">
+                            <label>
+                                There are no regions.
+                            </label>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
 
         @if (Model?.Count > 0)
         {
-                    <div class="row">
-                        <div id="div_pager" class="col-xl-6">
+            <div class="row">
+                <div id="div_pager" class="col-xl-6">
                     @Html.PagedListPager( Model, page_number => Url.Action("Index", new { page_number }), new X.PagedList.Web.Common.PagedListRenderOptions{
                 LiElementClasses = new [] { "page-item" },
                 PageClasses = new [] {"page-link"},
                 })
-                        </div>
+                </div>
 
-                        <div class="col-xl-6 text-end">
+                <div class="col-xl-6 text-end">
                     @GlobalMethods.GetPagingText(Model?.PageNumber, Model?.PageCount)
-                        </div>
-                    </div>
+                </div>
+            </div>
         }
+
+        <div class="row">
+            <div class="col">
+                @Html.ActionLink(
+                "Back", "ViewContentMenu", "Story",
+                new {
+                @story_id = ViewBag.StoryID,
+                },
+                new {
+                @class = "btn btn-secondary",
+                })
+            </div>
+        </div>
     </div>
 </div>

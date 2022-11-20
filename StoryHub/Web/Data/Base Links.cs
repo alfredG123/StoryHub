@@ -5,10 +5,12 @@ namespace Web.Data
 {
     [Serializable()]
     public abstract class BaseLinks<TLeftID, TRightID>
-        : List<BaseLinkItem<TLeftID, TRightID>>
         where TLeftID : BaseID
         where TRightID : BaseID
     {
+        private readonly List<BaseLinkItem<TLeftID, TRightID>> _item_list = new();
+        private readonly List<BaseLinkItem<TLeftID, TRightID>> _deleted_item_list = new();
+
         /// <summary>
         /// Types of retrieval for the link items
         /// </summary>
@@ -35,6 +37,46 @@ namespace Web.Data
         public BaseLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
         {
             RetrieveLinks(link_type, id, db_context);
+        }
+
+        /// <summary>
+        /// Add a list item to the list
+        /// </summary>
+        /// <param name="list_item"></param>
+        public void Add(BaseLinkItem<TLeftID, TRightID> list_item)
+        {
+            _item_list.Add(list_item);
+        }
+
+        /// <summary>
+        /// Delete the item by the specified index
+        /// </summary>
+        /// <param name="item_index"></param>
+        public void Delete(int item_index)
+        {
+            BaseLinkItem<TLeftID, TRightID> list_item = _item_list[item_index];
+
+            _item_list.Remove(list_item);
+            _deleted_item_list.Add(list_item);
+        }
+
+        /// <summary>
+        /// Create/Update the data entry in the database
+        /// </summary>
+        /// <param name="db_context"></param>
+        public void Save(ProgramDbContext db_context)
+        {
+            // Delete the items that are marked for deletion
+            foreach (BaseLinkItem<TLeftID, TRightID> list_item in _deleted_item_list)
+            {
+                list_item.Delete(db_context);
+            }
+
+            // Save the list items
+            foreach (BaseLinkItem<TLeftID, TRightID> list_item in _item_list)
+            {
+                list_item.Save(db_context);
+            }
         }
     }
 
@@ -85,54 +127,6 @@ namespace Web.Data
         /// Return the flag to indicate whether the data object is in the database
         /// </summary>
         public bool IsSet { get; protected set; }
-
-        /// <summary>
-        /// Delete the current data entry from the database
-        /// </summary>
-        /// <param name="db_context"></param>
-        public void Delete(ProgramDbContext db_context)
-        {
-            // Delete the item from database
-            db_context.Remove(this.BaseModel);
-            db_context.SaveChanges();
-
-            // Update the ID
-            UpdateDataObject();
-
-            this.IsSet = false;
-        }
-
-        /// <summary>
-        /// Create/Update the data entry in the database
-        /// </summary>
-        /// <param name="db_context"></param>
-        public void Save(ProgramDbContext db_context)
-        {
-            // Fill in the data
-            UpdateModelObject();
-
-            // If the chararcter exists in the database, update it
-            if (this.IsSet)
-            {
-                db_context.Update(this.BaseModel);
-            }
-
-            // Otherwise, create a new entry
-            else
-            {
-                // Reset the ID to 0 in order to save
-                this.BaseModel.ID = 0;
-
-                db_context.Add(this.BaseModel);
-            }
-
-            db_context.SaveChanges();
-
-            // Update the ID
-            UpdateDataObject();
-
-            this.IsSet = true;
-        }
 
         /// <summary>
         /// Check if the specified object is same as the current object
@@ -240,6 +234,54 @@ namespace Web.Data
 
             // If both BaseLinkItem are set, compare those two objects
             return lhs.Equals(rhs);
+        }
+
+        /// <summary>
+        /// Delete the current data entry from the database
+        /// </summary>
+        /// <param name="db_context"></param>
+        internal void Delete(ProgramDbContext db_context)
+        {
+            // Delete the item from database
+            db_context.Remove(this.BaseModel);
+            db_context.SaveChanges();
+
+            // Update the ID
+            UpdateDataObject();
+
+            this.IsSet = false;
+        }
+
+        /// <summary>
+        /// Create/Update the data entry in the database
+        /// </summary>
+        /// <param name="db_context"></param>
+        internal void Save(ProgramDbContext db_context)
+        {
+            // Fill in the data
+            UpdateModelObject();
+
+            // If the chararcter exists in the database, update it
+            if (this.IsSet)
+            {
+                db_context.Update(this.BaseModel);
+            }
+
+            // Otherwise, create a new entry
+            else
+            {
+                // Reset the ID to 0 in order to save
+                this.BaseModel.ID = 0;
+
+                db_context.Add(this.BaseModel);
+            }
+
+            db_context.SaveChanges();
+
+            // Update the ID
+            UpdateDataObject();
+
+            this.IsSet = true;
         }
     }
 }

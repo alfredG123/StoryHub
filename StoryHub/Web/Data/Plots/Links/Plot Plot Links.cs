@@ -43,6 +43,21 @@ namespace Web.Data.Plots
                 this.Add(new PlotPlotLinkItem(plot_plot_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="plot_id"></param>
+        /// <param name="sub_plot_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<PlotID, PlotID> CreateLinkItem(PlotID plot_id, PlotID sub_plot_id)
+        {
+            PlotPlotLinkItemModel link_item_model = new();
+            link_item_model.PlotID = plot_id.Value;
+            link_item_model.SubPlotID = sub_plot_id.Value;
+
+            return (new PlotPlotLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Plots
         /// </summary>
         /// <param name="plot_plot_link_item_model"></param>
         public PlotPlotLinkItem(PlotPlotLinkItemModel plot_plot_link_item_model)
-            : base(new PlotPlotID(plot_plot_link_item_model.ID), plot_plot_link_item_model)
+            : base(new PlotPlotID(plot_plot_link_item_model.ID), new PlotID(plot_plot_link_item_model.PlotID), new PlotID(plot_plot_link_item_model.SubPlotID), plot_plot_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the plot ID
         /// </summary>
-        public PlotID PlotID { get; set; } = new();
+        public PlotID PlotID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the plot ID for sub-plot
         /// </summary>
-        public PlotID SubPlotID { get; set; } = new();
+        public PlotID SubPlotID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Update the data object for retrieving the data from the database
@@ -77,8 +114,6 @@ namespace Web.Data.Plots
             PlotPlotID plot_plot_id = new(plot_plot_link_item_model.ID);
 
             this.ID = plot_plot_id;
-            this.PlotID = new PlotID(plot_plot_link_item_model.PlotID);
-            this.SubPlotID = new PlotID(plot_plot_link_item_model.SubPlotID);
             this.IsSet = plot_plot_id.IsSet;
         }
 

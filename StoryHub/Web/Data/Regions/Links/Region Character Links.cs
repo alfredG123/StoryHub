@@ -43,6 +43,21 @@ namespace Web.Data.Regions
                 this.Add(new RegionCharacterLinkItem(region_character_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="region_id"></param>
+        /// <param name="character_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<RegionID, CharacterID> CreateLinkItem(RegionID region_id, CharacterID character_id)
+        {
+            RegionCharacterLinkItemModel link_item_model = new();
+            link_item_model.RegionID = region_id.Value;
+            link_item_model.CharacterID = character_id.Value;
+
+            return (new RegionCharacterLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Regions
         /// </summary>
         /// <param name="region_character_link_item_model"></param>
         public RegionCharacterLinkItem(RegionCharacterLinkItemModel region_character_link_item_model)
-            : base(new RegionCharacterID(region_character_link_item_model.ID), region_character_link_item_model)
+            : base(new RegionCharacterID(region_character_link_item_model.ID), new RegionID(region_character_link_item_model.RegionID), new CharacterID(region_character_link_item_model.CharacterID), region_character_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the region ID
         /// </summary>
-        public RegionID RegionID { get; set; } = new();
+        public RegionID RegionID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the character ID
         /// </summary>
-        public CharacterID CharacterID { get; set; } = new();
+        public CharacterID CharacterID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Update the data object for retrieving the data from the database
@@ -77,8 +114,6 @@ namespace Web.Data.Regions
             RegionCharacterID region_character_id = new(region_character_link_item_model.ID);
 
             this.ID = region_character_id;
-            this.RegionID = new RegionID(region_character_link_item_model.RegionID);
-            this.CharacterID = new CharacterID(region_character_link_item_model.CharacterID);
             this.IsSet = region_character_id.IsSet;
         }
 

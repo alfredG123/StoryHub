@@ -43,6 +43,21 @@ namespace Web.Data.Characters
                 this.Add(new CharacterReferenceLinkItem(character_reference_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="character_id"></param>
+        /// <param name="reference_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<CharacterID, ReferenceID> CreateLinkItem(CharacterID character_id, ReferenceID reference_id)
+        {
+            CharacterReferenceLinkItemModel link_item_model = new();
+            link_item_model.CharacterID = character_id.Value;
+            link_item_model.ReferenceID = reference_id.Value;
+
+            return (new CharacterReferenceLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Characters
         /// </summary>
         /// <param name="character_reference_link_item_model"></param>
         public CharacterReferenceLinkItem(CharacterReferenceLinkItemModel character_reference_link_item_model)
-            : base(new CharacterReferenceID(character_reference_link_item_model.ID), character_reference_link_item_model)
+            : base(new CharacterReferenceID(character_reference_link_item_model.ID), new CharacterID(character_reference_link_item_model.CharacterID), new ReferenceID(character_reference_link_item_model.ReferenceID), character_reference_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the character ID
         /// </summary>
-        public CharacterID CharacterID { get; set; } = new();
+        public CharacterID CharacterID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the reference ID
         /// </summary>
-        public ReferenceID ReferenceID { get; set; } = new();
+        public ReferenceID ReferenceID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the description of the link item
@@ -82,8 +119,6 @@ namespace Web.Data.Characters
             CharacterReferenceID character_reference_id = new(character_reference_link_item_model.ID);
 
             this.ID = character_reference_id;
-            this.CharacterID = new CharacterID(character_reference_link_item_model.CharacterID);
-            this.ReferenceID = new ReferenceID(character_reference_link_item_model.ReferenceID);
             this.Description = character_reference_link_item_model.Description;
             this.IsSet = character_reference_id.IsSet;
         }

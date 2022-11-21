@@ -43,6 +43,21 @@ namespace Web.Data.Stories
                 this.Add(new StoryCustomFieldLinkItem(story_custom_field_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="story_id"></param>
+        /// <param name="custom_field_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<StoryID, CustomFieldID> CreateLinkItem(StoryID story_id, CustomFieldID custom_field_id)
+        {
+            StoryCustomFieldLinkItemModel link_item_model = new();
+            link_item_model.StoryID = story_id.Value;
+            link_item_model.CustomFieldID = custom_field_id.Value;
+
+            return (new StoryCustomFieldLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Stories
         /// </summary>
         /// <param name="story_custom_field_link_item_model"></param>
         public StoryCustomFieldLinkItem(StoryCustomFieldLinkItemModel story_custom_field_link_item_model)
-            : base(new StoryCustomFieldID(story_custom_field_link_item_model.ID), story_custom_field_link_item_model)
+            : base(new StoryCustomFieldID(story_custom_field_link_item_model.ID), new StoryID(story_custom_field_link_item_model.StoryID), new CustomFieldID(story_custom_field_link_item_model.CustomFieldID), story_custom_field_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the story ID
         /// </summary>
-        public StoryID StoryID { get; set; } = new();
+        public StoryID StoryID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the custom field ID
         /// </summary>
-        public CustomFieldID CustomFieldID { get; set; } = new();
+        public CustomFieldID CustomFieldID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Update the data object for retrieving the data from the database
@@ -77,8 +114,6 @@ namespace Web.Data.Stories
             StoryCustomFieldID story_custom_field_id = new(story_custom_field_link_item_model.ID);
 
             this.ID = story_custom_field_id;
-            this.StoryID = new StoryID(story_custom_field_link_item_model.StoryID);
-            this.CustomFieldID = new CustomFieldID(story_custom_field_link_item_model.CustomFieldID);
             this.IsSet = story_custom_field_id.IsSet;
         }
 

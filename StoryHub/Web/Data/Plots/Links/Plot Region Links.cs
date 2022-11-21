@@ -43,6 +43,21 @@ namespace Web.Data.Plots
                 this.Add(new PlotRegionLinkItem(plot_region_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="plot_id"></param>
+        /// <param name="region_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<PlotID, RegionID> CreateLinkItem(PlotID plot_id, RegionID region_id)
+        {
+            PlotRegionLinkItemModel link_item_model = new();
+            link_item_model.PlotID = plot_id.Value;
+            link_item_model.RegionID = region_id.Value;
+
+            return (new PlotRegionLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Plots
         /// </summary>
         /// <param name="plot_region_link_item_model"></param>
         public PlotRegionLinkItem(PlotRegionLinkItemModel plot_region_link_item_model)
-            : base(new PlotRegionID(plot_region_link_item_model.ID), plot_region_link_item_model)
+            : base(new PlotRegionID(plot_region_link_item_model.ID), new PlotID(plot_region_link_item_model.PlotID), new RegionID(plot_region_link_item_model.RegionID), plot_region_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the plot ID
         /// </summary>
-        public PlotID PlotID { get; set; } = new();
+        public PlotID PlotID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the region ID
         /// </summary>
-        public RegionID RegionID { get; set; } = new();
+        public RegionID RegionID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the description
@@ -82,8 +119,6 @@ namespace Web.Data.Plots
             PlotRegionID plot_region_id = new(plot_region_link_item_model.ID);
 
             this.ID = plot_region_id;
-            this.PlotID = new PlotID(plot_region_link_item_model.PlotID);
-            this.RegionID = new RegionID(plot_region_link_item_model.RegionID);
             this.Description = plot_region_link_item_model.Description;
             this.IsSet = plot_region_id.IsSet;
         }

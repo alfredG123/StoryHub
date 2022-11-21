@@ -43,6 +43,21 @@ namespace Web.Data.Regions
                 this.Add(new RegionReferenceLinkItem(region_reference_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="region_id"></param>
+        /// <param name="reference_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<RegionID, ReferenceID> CreateLinkItem(RegionID region_id, ReferenceID reference_id)
+        {
+            RegionReferenceLinkItemModel link_item_model = new();
+            link_item_model.RegionID = region_id.Value;
+            link_item_model.ReferenceID = reference_id.Value;
+
+            return (new RegionReferenceLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Regions
         /// </summary>
         /// <param name="region_reference_link_item_model"></param>
         public RegionReferenceLinkItem(RegionReferenceLinkItemModel region_reference_link_item_model)
-            : base(new RegionReferenceID(region_reference_link_item_model.ID), region_reference_link_item_model)
+            : base(new RegionReferenceID(region_reference_link_item_model.ID), new RegionID(region_reference_link_item_model.RegionID), new ReferenceID(region_reference_link_item_model.ReferenceID), region_reference_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the region ID
         /// </summary>
-        public RegionID RegionID { get; set; } = new();
+        public RegionID RegionID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the reference ID
         /// </summary>
-        public ReferenceID ReferenceID { get; set; } = new();
+        public ReferenceID ReferenceID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the description
@@ -82,8 +119,6 @@ namespace Web.Data.Regions
             RegionReferenceID region_reference_id = new(region_reference_link_item_model.ID);
 
             this.ID = region_reference_id;
-            this.RegionID = new RegionID(region_reference_link_item_model.RegionID);
-            this.ReferenceID = new ReferenceID(region_reference_link_item_model.ReferenceID);
             this.Description = region_reference_link_item_model.Description;
             this.IsSet = region_reference_id.IsSet;
         }

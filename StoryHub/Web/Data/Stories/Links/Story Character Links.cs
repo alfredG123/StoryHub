@@ -8,13 +8,22 @@ namespace Web.Data.Stories
         : BaseLinks<StoryID, CharacterID>
     {
         /// <summary>
-        /// Retrieve all story character link items from database
+        /// Retrieve all story character link items from database for the specified story
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="story_id"></param>
         /// <param name="db_context"></param>
-        public StoryCharacterLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public StoryCharacterLinks(StoryID story_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, story_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all story character link items from database for the specified character
+        /// </summary>
+        /// <param name="character_id"></param>
+        /// <param name="db_context"></param>
+        public StoryCharacterLinks(CharacterID character_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, character_id, db_context)
         {
         }
 
@@ -43,6 +52,21 @@ namespace Web.Data.Stories
                 this.Add(new StoryCharacterLinkItem(story_character_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="story_id"></param>
+        /// <param name="character_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<StoryID, CharacterID> CreateLinkItem(StoryID story_id, CharacterID character_id)
+        {
+            StoryCharacterLinkItemModel link_item_model = new();
+            link_item_model.StoryID = story_id.Value;
+            link_item_model.CharacterID = character_id.Value;
+
+            return (new StoryCharacterLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +78,41 @@ namespace Web.Data.Stories
         /// </summary>
         /// <param name="story_character_link_item_model"></param>
         public StoryCharacterLinkItem(StoryCharacterLinkItemModel story_character_link_item_model)
-            : base(new StoryCharacterID(story_character_link_item_model.ID), story_character_link_item_model)
+            : base(new StoryCharacterID(story_character_link_item_model.ID), new StoryID(story_character_link_item_model.StoryID), new CharacterID(story_character_link_item_model.CharacterID), story_character_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the story ID
         /// </summary>
-        public StoryID StoryID { get; set; } = new();
+        public StoryID StoryID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the character ID
         /// </summary>
-        public CharacterID CharacterID { get; set; } = new();
+        public CharacterID CharacterID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Update the data object for retrieving the data from the database
@@ -77,8 +123,6 @@ namespace Web.Data.Stories
             StoryCharacterID story_character_id = new(story_character_link_item_model.ID);
 
             this.ID = story_character_id;
-            this.StoryID = new StoryID(story_character_link_item_model.StoryID);
-            this.CharacterID = new CharacterID(story_character_link_item_model.CharacterID);
             this.IsSet = story_character_id.IsSet;
         }
 

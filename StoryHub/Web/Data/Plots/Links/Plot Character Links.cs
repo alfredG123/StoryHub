@@ -43,6 +43,21 @@ namespace Web.Data.Plots
                 this.Add(new PlotCharacterLinkItem(plot_character_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="plot_id"></param>
+        /// <param name="character_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<PlotID, CharacterID> CreateLinkItem(PlotID plot_id, CharacterID character_id)
+        {
+            PlotCharacterLinkItemModel link_item_model = new();
+            link_item_model.PlotID = plot_id.Value;
+            link_item_model.CharacterID = character_id.Value;
+
+            return (new PlotCharacterLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Plots
         /// </summary>
         /// <param name="plot_character_link_item_model"></param>
         public PlotCharacterLinkItem(PlotCharacterLinkItemModel plot_character_link_item_model)
-            : base(new PlotCharacterID(plot_character_link_item_model.ID), plot_character_link_item_model)
+            : base(new PlotCharacterID(plot_character_link_item_model.ID), new PlotID(plot_character_link_item_model.PlotID), new CharacterID(plot_character_link_item_model.CharacterID), plot_character_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the plot ID
         /// </summary>
-        public PlotID PlotID { get; set; } = new();
+        public PlotID PlotID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the character ID
         /// </summary>
-        public CharacterID CharacterID { get; set; } = new();
+        public CharacterID CharacterID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the description of the link item
@@ -82,8 +119,6 @@ namespace Web.Data.Plots
             PlotCharacterID plot_character_id = new(plot_character_link_item_model.ID);
 
             this.ID = plot_character_id;
-            this.PlotID = new PlotID(plot_character_link_item_model.PlotID);
-            this.CharacterID = new CharacterID(plot_character_link_item_model.CharacterID);
             this.Description = plot_character_link_item_model.Description;
             this.IsSet = plot_character_id.IsSet;
         }

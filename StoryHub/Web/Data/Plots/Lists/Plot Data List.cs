@@ -12,8 +12,9 @@ namespace Web.Data.Plots
         /// </summary>
         /// <param name="db_context"></param>
         public PlotDataList(ProgramDbContext db_context)
-            : base(db_context)
+            : base()
         {
+            RetrieveData(db_context);
         }
 
         /// <summary>

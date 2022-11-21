@@ -27,14 +27,5 @@ namespace Web.Data
         public BaseDataList()
         {
         }
-
-        /// <summary>
-        /// Retrieve all data from the database
-        /// </summary>
-        /// <param name="db_context"></param>
-        public BaseDataList(ProgramDbContext db_context)
-        {
-            RetrieveData(db_context);
-        }
     }
 }

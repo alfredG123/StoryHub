@@ -2,6 +2,7 @@
 using Web.Data;
 using Web.Data.Characters;
 using Web.Data.ID;
+using Web.Data.Stories;
 using Web.Miscellaneous;
 using Web.Models;
 using X.PagedList;
@@ -14,7 +15,7 @@ namespace Web.Controllers
         private readonly MiscellaneousController _miscellaneous_controller;
 
         // Related story
-        private static int _story_id;
+        private static StoryID _story_id = new();
 
         // Paging variables
         private static int _page_number_for_character_data_list_page = 1;
@@ -30,11 +31,17 @@ namespace Web.Controllers
         {
             CharacterDataList? character_data_list = null;
 
+            // Record the story
+            if (story_id != null)
+            {
+                _story_id = new StoryID((int)story_id);
+            }
+
             // If the character data list is not retrieve yet, load all the character data from the database
             if (character_data_list == null)
             {
                 // Load all the character data from the database
-                character_data_list = new(_db_context);
+                character_data_list = new(_story_id, _db_context);
             }
 
             // If the page number is not specified, use the last stored page number
@@ -46,13 +53,7 @@ namespace Web.Controllers
             // Adjust the page number to fit the list, and store the page number in case the page refresh due to actions such as deletion
             _page_number_for_character_data_list_page = GlobalMethods.GetValidPageNumber(page_number, character_data_list.Count);
 
-            // Record the story
-            if (story_id != null)
-            {
-                _story_id = (int)story_id;
-            }
-
-            this.ViewBag.StoryID = _story_id;
+            this.ViewBag.StoryID = _story_id.Value;
 
             return View(GlobalWebPages.CHARACTER_LIST_PAGE, character_data_list.ToPagedList(_page_number_for_character_data_list_page, GlobalMethods.PAGE_SIZE));
         }
@@ -79,6 +80,12 @@ namespace Web.Controllers
 
             // Delete the character from the database
             character_data.Delete(_db_context);
+
+            // Delete the character from story links
+            StoryCharacterLinks story_character_links = new(_story_id, _db_context);
+            int item_index = story_character_links.IndexOfID(id);
+            story_character_links.Delete(item_index);
+            story_character_links.Save(_db_context);
 
             _miscellaneous_controller.DisplaySuccessMessage("Character is deleted successfully.", TempData);
 
@@ -136,6 +143,10 @@ namespace Web.Controllers
 
             // Save the character
             character_data.Save(_db_context);
+
+            StoryCharacterLinks story_character_links = new(_story_id, _db_context);
+            story_character_links.Add(_story_id, character_data.CharacterID);
+            story_character_links.Save(_db_context);
 
             // Create a pop-up message to notify the user
             _miscellaneous_controller.DisplaySuccessMessage("The character is saved!", TempData);

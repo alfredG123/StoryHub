@@ -43,6 +43,21 @@ namespace Web.Data.Stories
                 this.Add(new StoryRegionLinkItem(story_region_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="story_id"></param>
+        /// <param name="region_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<StoryID, RegionID> CreateLinkItem(StoryID story_id, RegionID region_id)
+        {
+            StoryRegionLinkItemModel link_item_model = new();
+            link_item_model.StoryID = story_id.Value;
+            link_item_model.RegionID = region_id.Value;
+
+            return (new StoryRegionLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Stories
         /// </summary>
         /// <param name="story_region_link_item_model"></param>
         public StoryRegionLinkItem(StoryRegionLinkItemModel story_region_link_item_model)
-            : base(new StoryRegionID(story_region_link_item_model.ID), story_region_link_item_model)
+            : base(new StoryRegionID(story_region_link_item_model.ID), new StoryID(story_region_link_item_model.StoryID), new RegionID(story_region_link_item_model.RegionID), story_region_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the story ID
         /// </summary>
-        public StoryID StoryID { get; set; } = new();
+        public StoryID StoryID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the region ID
         /// </summary>
-        public RegionID RegionID { get; set; } = new();
+        public RegionID RegionID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Update the data object for retrieving the data from the database
@@ -77,8 +114,6 @@ namespace Web.Data.Stories
             StoryRegionID story_region_id = new(story_region_link_item_model.ID);
 
             this.ID = story_region_id;
-            this.StoryID = new StoryID(story_region_link_item_model.StoryID);
-            this.RegionID = new RegionID(story_region_link_item_model.RegionID);
             this.IsSet = story_region_id.IsSet;
         }
 

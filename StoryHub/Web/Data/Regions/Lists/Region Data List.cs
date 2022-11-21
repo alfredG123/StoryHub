@@ -12,8 +12,9 @@ namespace Web.Data.Regions
         /// </summary>
         /// <param name="db_context"></param>
         public RegionDataList(ProgramDbContext db_context)
-            : base(db_context)
+            : base()
         {
+            RetrieveData(db_context);
         }
 
         /// <summary>

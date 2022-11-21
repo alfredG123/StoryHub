@@ -8,8 +8,8 @@ namespace Web.Data
         where TLeftID : BaseID
         where TRightID : BaseID
     {
-        private readonly List<BaseLinkItem<TLeftID, TRightID>> _item_list = new();
-        private readonly List<BaseLinkItem<TLeftID, TRightID>> _deleted_item_list = new();
+        private readonly List<BaseLinkItem<TLeftID, TRightID>> _item_links = new();
+        private readonly List<BaseLinkItem<TLeftID, TRightID>> _deleted_item_links = new();
 
         /// <summary>
         /// Types of retrieval for the link items
@@ -29,6 +29,14 @@ namespace Web.Data
         protected abstract void RetrieveLinks(LinkType link_type, BaseID id, ProgramDbContext db_context);
 
         /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="left_id"></param>
+        /// <param name="right_id"></param>
+        /// <returns></returns>
+        protected abstract BaseLinkItem<TLeftID, TRightID> CreateLinkItem(TLeftID left_id, TRightID right_id);
+
+        /// <summary>
         /// Retrieve all link items from database
         /// </summary>
         /// <param name="link_type"></param>
@@ -40,12 +48,62 @@ namespace Web.Data
         }
 
         /// <summary>
-        /// Add a list item to the list
+        /// Find the link item by the specified ID
         /// </summary>
-        /// <param name="list_item"></param>
-        public void Add(BaseLinkItem<TLeftID, TRightID> list_item)
+        /// <param name="left_id"></param>
+        public int IndexOfID(TLeftID left_id)
         {
-            _item_list.Add(list_item);
+            int item_index = -1;
+
+            for (int i = 0; i < _item_links.Count; i++)
+            {
+                if (_item_links[i].LeftID == left_id)
+                {
+                    item_index = i;
+                }
+            }
+
+            return (item_index);
+        }
+
+        /// <summary>
+        /// Find the link item by the specified ID
+        /// </summary>
+        /// <param name="right_id"></param>
+        public int IndexOfID(TRightID right_id)
+        {
+            int item_index = -1;
+
+            for (int i = 0; i < _item_links.Count; i++)
+            {
+                if (_item_links[i].RightID == right_id)
+                {
+                    item_index = i;
+                }
+            }
+
+            return (item_index);
+        }
+
+        /// <summary>
+        /// Add a link item to the links
+        /// </summary>
+        /// <param name="left_id"></param>
+        /// <param name="right_id"></param>
+        public void Add(TLeftID left_id, TRightID right_id)
+        {
+            BaseLinkItem<TLeftID, TRightID> link_item = CreateLinkItem(left_id, right_id);
+
+            this.Add(link_item);
+        }
+
+        /// <summary>
+        /// Add a link item to the links
+        /// </summary>
+        /// <param name="link_item"></param>
+        protected void Add(BaseLinkItem<TLeftID, TRightID> link_item)
+        {
+            _item_links.Add(link_item);
         }
 
         /// <summary>
@@ -54,10 +112,10 @@ namespace Web.Data
         /// <param name="item_index"></param>
         public void Delete(int item_index)
         {
-            BaseLinkItem<TLeftID, TRightID> list_item = _item_list[item_index];
+            BaseLinkItem<TLeftID, TRightID> link_item = _item_links[item_index];
 
-            _item_list.Remove(list_item);
-            _deleted_item_list.Add(list_item);
+            _item_links.Remove(link_item);
+            _deleted_item_links.Add(link_item);
         }
 
         /// <summary>
@@ -67,15 +125,15 @@ namespace Web.Data
         public void Save(ProgramDbContext db_context)
         {
             // Delete the items that are marked for deletion
-            foreach (BaseLinkItem<TLeftID, TRightID> list_item in _deleted_item_list)
+            foreach (BaseLinkItem<TLeftID, TRightID> link_item in _deleted_item_links)
             {
-                list_item.Delete(db_context);
+                link_item.Delete(db_context);
             }
 
-            // Save the list items
-            foreach (BaseLinkItem<TLeftID, TRightID> list_item in _item_list)
+            // Save the link items
+            foreach (BaseLinkItem<TLeftID, TRightID> link_item in _item_links)
             {
-                list_item.Save(db_context);
+                link_item.Save(db_context);
             }
         }
     }
@@ -102,21 +160,13 @@ namespace Web.Data
         /// <param name="left_id"></param>
         /// <param name="right_id"></param>
         /// <param name="base_model"></param>
-        public BaseLinkItem(BaseID id, BaseModel base_model)
+        internal BaseLinkItem(BaseID id, TLeftID left_id, TRightID right_id, BaseModel base_model)
         {
             this.ID = id;
+            this.LeftID = left_id;
+            this.RightID = right_id;
             this.BaseModel = base_model;
         }
-
-        /// <summary>
-        /// Return the ID of the model
-        /// </summary>
-        protected BaseID ID { get; set; }
-
-        /// <summary>
-        /// Return the model
-        /// </summary>
-        protected BaseModel BaseModel { get; }
 
         /// <summary>
         /// Return the message for the error in the data
@@ -127,6 +177,26 @@ namespace Web.Data
         /// Return the flag to indicate whether the data object is in the database
         /// </summary>
         public bool IsSet { get; protected set; }
+
+        /// <summary>
+        /// Return the ID of the model
+        /// </summary>
+        protected BaseID ID { get; set; }
+
+        /// <summary>
+        /// Return the left ID of the model
+        /// </summary>
+        protected internal TLeftID LeftID { get; set; }
+
+        /// <summary>
+        /// Return the right ID of the model
+        /// </summary>
+        protected internal TRightID RightID { get; set; }
+
+        /// <summary>
+        /// Return the model
+        /// </summary>
+        protected BaseModel BaseModel { get; }
 
         /// <summary>
         /// Check if the specified object is same as the current object

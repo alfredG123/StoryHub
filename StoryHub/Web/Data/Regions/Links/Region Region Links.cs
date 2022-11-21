@@ -43,6 +43,21 @@ namespace Web.Data.Regions
                 this.Add(new RegionRegionLinkItem(region_region_link_item_model));
             }
         }
+
+        /// <summary>
+        /// Create a link item
+        /// </summary>
+        /// <param name="region_id"></param>
+        /// <param name="sub_region_id"></param>
+        /// <returns></returns>
+        protected override BaseLinkItem<RegionID, RegionID> CreateLinkItem(RegionID region_id, RegionID sub_region_id)
+        {
+            RegionRegionLinkItemModel link_item_model = new();
+            link_item_model.RegionID = region_id.Value;
+            link_item_model.SubRegionID = sub_region_id.Value;
+
+            return (new RegionRegionLinkItem(link_item_model));
+        }
     }
 
     [Serializable()]
@@ -54,19 +69,41 @@ namespace Web.Data.Regions
         /// </summary>
         /// <param name="region_region_link_item_model"></param>
         public RegionRegionLinkItem(RegionRegionLinkItemModel region_region_link_item_model)
-            : base(new RegionRegionID(region_region_link_item_model.ID), region_region_link_item_model)
+            : base(new RegionRegionID(region_region_link_item_model.ID), new RegionID(region_region_link_item_model.RegionID), new RegionID(region_region_link_item_model.SubRegionID), region_region_link_item_model)
         {
         }
 
         /// <summary>
         /// Return or set the region ID
         /// </summary>
-        public RegionID RegionID { get; set; } = new();
+        public RegionID RegionID
+        {
+            get
+            {
+                return (base.LeftID);
+            }
+
+            set
+            {
+                base.LeftID = value;
+            }
+        }
 
         /// <summary>
         /// Return or set the sub-region ID
         /// </summary>
-        public RegionID SubRegionID { get; set; } = new();
+        public RegionID SubRegionID
+        {
+            get
+            {
+                return (base.RightID);
+            }
+
+            set
+            {
+                base.RightID = value;
+            }
+        }
 
         /// <summary>
         /// Update the data object for retrieving the data from the database
@@ -77,8 +114,6 @@ namespace Web.Data.Regions
             RegionRegionID region_region_id = new(region_region_link_item_model.ID);
 
             this.ID = region_region_id;
-            this.RegionID = new RegionID(region_region_link_item_model.RegionID);
-            this.SubRegionID = new RegionID(region_region_link_item_model.SubRegionID);
             this.IsSet = region_region_id.IsSet;
         }
 

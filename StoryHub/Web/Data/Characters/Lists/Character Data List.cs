@@ -1,4 +1,5 @@
 ﻿using Web.Data.ID;
+using Web.Data.Stories;
 using Web.Models;
 
 namespace Web.Data.Characters
@@ -7,13 +8,27 @@ namespace Web.Data.Characters
     public class CharacterDataList
     : BaseDataList<CharacterID, CharacterData>
     {
+        private readonly StoryID _story_id = new();
+
+        /// <summary>
+        /// Retrieve all character data from the database
+        /// </summary>
+        /// <param name="db_context"></param>
+        public CharacterDataList(StoryID story_id, ProgramDbContext db_context)
+            : base()
+        {
+            _story_id = story_id;
+
+            RetrieveData(db_context);
+        }
+
         /// <summary>
         /// Retrieve all character data from the database
         /// </summary>
         /// <param name="db_context"></param>
         public CharacterDataList(ProgramDbContext db_context)
-            : base(db_context)
         {
+            RetrieveData(db_context);
         }
 
         /// <summary>
@@ -35,9 +50,24 @@ namespace Web.Data.Characters
             // NOTE: Close the connection first by using ToList() instead iterating db_context.CharacterData
             List<CharacterDataModel> character_data_model_list = db_context.CharacterData.ToList();
 
-            foreach (CharacterDataModel character_data_model in character_data_model_list)
+            if (_story_id.IsSet)
             {
-                this.Add(new CharacterData(character_data_model));
+                StoryCharacterLinks story_character_links = new(_story_id, db_context);
+
+                foreach (CharacterDataModel character_data_model in character_data_model_list)
+                {
+                    if (story_character_links.IndexOfID(new CharacterID(character_data_model.ID)) != -1)
+                    {
+                        this.Add(new CharacterData(character_data_model));
+                    }
+                }
+            }
+            else
+            {
+                foreach (CharacterDataModel character_data_model in character_data_model_list)
+                {
+                    this.Add(new CharacterData(character_data_model));
+                }
             }
         }
     }

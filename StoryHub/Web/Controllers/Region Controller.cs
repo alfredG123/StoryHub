@@ -2,6 +2,7 @@
 using Web.Data;
 using Web.Data.ID;
 using Web.Data.Regions;
+using Web.Data.Stories;
 using Web.Miscellaneous;
 using Web.Models;
 using X.PagedList;
@@ -14,7 +15,7 @@ namespace Web.Controllers
         private readonly MiscellaneousController _miscellaneous_controller;
 
         // Related story
-        private static int _story_id;
+        private static StoryID _story_id = new();
 
         // Paging variables
         private static int _page_number_for_region_data_list_page = 1;
@@ -30,11 +31,17 @@ namespace Web.Controllers
         {
             RegionDataList? region_data_list = null;
 
+            // Record the story
+            if (story_id != null)
+            {
+                _story_id = new StoryID((int)story_id);
+            }
+
             // If the region data list is not retrieve yet, load all the region data from the database
             if (region_data_list == null)
             {
                 // Load all the region data from the database
-                region_data_list = new(_db_context);
+                region_data_list = new(_story_id, _db_context);
             }
 
             // If the page number is not specified, use the last stored page number
@@ -46,13 +53,7 @@ namespace Web.Controllers
             // Adjust the page number to fit the list, and store the page number in case the page refresh due to actions such as deletion
             _page_number_for_region_data_list_page = GlobalMethods.GetValidPageNumber(page_number, region_data_list.Count);
 
-            // Record the story
-            if (story_id != null)
-            {
-                _story_id = (int)story_id;
-            }
-
-            this.ViewBag.StoryID = _story_id;
+            this.ViewBag.StoryID = _story_id.Value;
 
             return View(GlobalWebPages.REGION_LIST_PAGE, region_data_list.ToPagedList(_page_number_for_region_data_list_page, GlobalMethods.PAGE_SIZE));
         }
@@ -79,6 +80,12 @@ namespace Web.Controllers
 
             // Delete the region from the database
             region_data.Delete(_db_context);
+
+            // Delete the region from story links
+            StoryRegionLinks story_region_links = new(_story_id, _db_context);
+            int item_index = story_region_links.IndexOfID(id);
+            story_region_links.Delete(item_index);
+            story_region_links.Save(_db_context);
 
             _miscellaneous_controller.DisplaySuccessMessage("Region is deleted successfully.", TempData);
 
@@ -136,6 +143,11 @@ namespace Web.Controllers
 
             // Save the region
             region_data.Save(_db_context);
+
+            // Add the association between story and region
+            StoryRegionLinks story_region_links = new(_story_id, _db_context);
+            story_region_links.Add(_story_id, region_data.RegionID);
+            story_region_links.Save(_db_context);
 
             // Create a pop-up message to notify the user
             _miscellaneous_controller.DisplaySuccessMessage("The region is saved!", TempData);

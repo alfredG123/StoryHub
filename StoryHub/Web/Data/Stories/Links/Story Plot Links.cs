@@ -8,13 +8,22 @@ namespace Web.Data.Stories
         : BaseLinks<StoryID, PlotID>
     {
         /// <summary>
-        /// Retrieve all story plot link items from database
+        /// Retrieve all story character link items from database for the specified story
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="story_id"></param>
         /// <param name="db_context"></param>
-        public StoryPlotLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public StoryPlotLinks(StoryID story_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, story_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all story character link items from database for the specified plot
+        /// </summary>
+        /// <param name="plot_id"></param>
+        /// <param name="db_context"></param>
+        public StoryPlotLinks(PlotID plot_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, plot_id, db_context)
         {
         }
 

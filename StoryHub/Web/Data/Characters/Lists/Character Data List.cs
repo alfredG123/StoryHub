@@ -11,23 +11,15 @@ namespace Web.Data.Characters
         private readonly StoryID _story_id = new();
 
         /// <summary>
-        /// Retrieve all character data from the database
+        /// Retrieve all character data from the database for the story
         /// </summary>
+        /// <param name="story_id"></param>
         /// <param name="db_context"></param>
         public CharacterDataList(StoryID story_id, ProgramDbContext db_context)
             : base()
         {
             _story_id = story_id;
 
-            RetrieveData(db_context);
-        }
-
-        /// <summary>
-        /// Retrieve all character data from the database
-        /// </summary>
-        /// <param name="db_context"></param>
-        public CharacterDataList(ProgramDbContext db_context)
-        {
             RetrieveData(db_context);
         }
 
@@ -60,13 +52,6 @@ namespace Web.Data.Characters
                     {
                         this.Add(new CharacterData(character_data_model));
                     }
-                }
-            }
-            else
-            {
-                foreach (CharacterDataModel character_data_model in character_data_model_list)
-                {
-                    this.Add(new CharacterData(character_data_model));
                 }
             }
         }

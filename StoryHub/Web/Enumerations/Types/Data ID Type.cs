@@ -23,6 +23,7 @@
         public readonly static DataIDType StoryCustomFieldLinkItem = new(15, "Story Custom Field Link Item");
         public readonly static DataIDType StoryPlotLinkItem = new (16, "Story Plot Link Item");
         public readonly static DataIDType StoryRegionLinkItem = new (17, "Story Region Link Item");
+        public readonly static DataIDType StoryReferenceLinkItem = new(17, "Story Reference Link Item");
 
         /// <summary>
         /// Create a new data ID type

@@ -1,4 +1,5 @@
 ﻿using Web.Data.ID;
+using Web.Data.Stories;
 using Web.Models;
 
 namespace Web.Data.CustomFields
@@ -7,13 +8,18 @@ namespace Web.Data.CustomFields
     public class CustomFieldDataList
     : BaseDataList<CustomFieldID, CustomFieldData>
     {
+        private readonly StoryID _story_id = new();
+
         /// <summary>
-        /// Retrieve all custom field data from the database
+        /// Retrieve all custom field data from the database for the story
         /// </summary>
+        /// <param name="story_id"></param>
         /// <param name="db_context"></param>
-        public CustomFieldDataList(ProgramDbContext db_context)
+        public CustomFieldDataList(StoryID story_id, ProgramDbContext db_context)
             : base()
         {
+            _story_id = story_id;
+
             RetrieveData(db_context);
         }
 
@@ -36,9 +42,17 @@ namespace Web.Data.CustomFields
             // NOTE: Close the connection first by using ToList() instead iterating db_context.CustomFieldData
             List<CustomFieldDataModel> custom_field_data_model_list = db_context.CustomFieldData.ToList();
 
-            foreach (CustomFieldDataModel custom_field_data_model in custom_field_data_model_list)
+            if (_story_id.IsSet)
             {
-                this.Add(new CustomFieldData(custom_field_data_model));
+                StoryCustomFieldLinks story_custom_field_links = new(_story_id, db_context);
+
+                foreach (CustomFieldDataModel custom_field_data_model in custom_field_data_model_list)
+                {
+                    if (story_custom_field_links.IndexOfID(new CustomFieldID(custom_field_data_model.ID)) != -1)
+                    {
+                        this.Add(new CustomFieldData(custom_field_data_model));
+                    }
+                }
             }
         }
     }

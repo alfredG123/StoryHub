@@ -8,13 +8,22 @@ namespace Web.Data.Stories
         : BaseLinks<StoryID, CustomFieldID>
     {
         /// <summary>
-        /// Retrieve all story custom field link items from database
+        /// Retrieve all story character link items from database for the specified story
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="story_id"></param>
         /// <param name="db_context"></param>
-        public StoryCustomFieldLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public StoryCustomFieldLinks(StoryID story_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, story_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all story character link items from database for the specified custom field
+        /// </summary>
+        /// <param name="custom_field_id"></param>
+        /// <param name="db_context"></param>
+        public StoryCustomFieldLinks(CustomFieldID custom_field_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, custom_field_id, db_context)
         {
         }
 

@@ -100,5 +100,10 @@ namespace Web.Data
         ///  Set up database table, Story Region Link Item
         /// </summary>
         public DbSet<StoryRegionLinkItemModel> StoryRegionLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Story Reference Link Item
+        /// </summary>
+        public DbSet<StoryReferenceLinkItemModel> StoryReferenceLinkItem { get; set; }
     }
 }

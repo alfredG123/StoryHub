@@ -2,6 +2,7 @@
 using Web.Data;
 using Web.Data.ID;
 using Web.Data.Plots;
+using Web.Data.Stories;
 using Web.Miscellaneous;
 using Web.Models;
 using X.PagedList;
@@ -14,7 +15,7 @@ namespace Web.Controllers
         private readonly MiscellaneousController _miscellaneous_controller;
 
         // Related story
-        private static int _story_id;
+        private static StoryID _story_id = new();
 
         // Paging variables
         private static int _page_number_for_plot_data_list_page = 1;
@@ -30,11 +31,17 @@ namespace Web.Controllers
         {
             PlotDataList? plot_data_list = null;
 
+            // Record the story
+            if (story_id != null)
+            {
+                _story_id = new StoryID((int)story_id);
+            }
+
             // If the plot data list is not retrieve yet, load all the plot data from the database
             if (plot_data_list == null)
             {
                 // Load all the plot data from the database
-                plot_data_list = new(_db_context);
+                plot_data_list = new(_story_id, _db_context);
             }
 
             // If the page number is not specified, use the last stored page number
@@ -46,13 +53,7 @@ namespace Web.Controllers
             // Adjust the page number to fit the list, and store the page number in case the page refresh due to actions such as deletion
             _page_number_for_plot_data_list_page = GlobalMethods.GetValidPageNumber(page_number, plot_data_list.Count);
 
-            // Record the story
-            if (story_id != null)
-            {
-                _story_id = (int)story_id;
-            }
-
-            this.ViewBag.StoryID = _story_id;
+            this.ViewBag.StoryID = _story_id.Value;
 
             return View(GlobalWebPages.PLOT_LIST_PAGE, plot_data_list.ToPagedList(_page_number_for_plot_data_list_page, GlobalMethods.PAGE_SIZE));
         }
@@ -79,6 +80,12 @@ namespace Web.Controllers
 
             // Delete the plot from the database
             plot_data.Delete(_db_context);
+
+            // Delete the plot from story links
+            StoryPlotLinks story_plot_links = new(_story_id, _db_context);
+            int item_index = story_plot_links.IndexOfID(id);
+            story_plot_links.Delete(item_index);
+            story_plot_links.Save(_db_context);
 
             _miscellaneous_controller.DisplaySuccessMessage("Plot is deleted successfully.", TempData);
 
@@ -136,6 +143,11 @@ namespace Web.Controllers
 
             // Save the plot
             plot_data.Save(_db_context);
+
+            // Add the association between story and plot
+            StoryPlotLinks story_plot_links = new(_story_id, _db_context);
+            story_plot_links.Add(_story_id, plot_data.PlotID);
+            story_plot_links.Save(_db_context);
 
             // Create a pop-up message to notify the user
             _miscellaneous_controller.DisplaySuccessMessage("The plot is saved!", TempData);

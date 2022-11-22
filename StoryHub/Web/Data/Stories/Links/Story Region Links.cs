@@ -8,13 +8,22 @@ namespace Web.Data.Stories
         : BaseLinks<StoryID, RegionID>
     {
         /// <summary>
-        /// Retrieve all story region link items from database
+        /// Retrieve all story character link items from database for the specified story
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="story_id"></param>
         /// <param name="db_context"></param>
-        public StoryRegionLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public StoryRegionLinks(StoryID story_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, story_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all story character link items from database for the specified region
+        /// </summary>
+        /// <param name="region_id"></param>
+        /// <param name="db_context"></param>
+        public StoryRegionLinks(RegionID region_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, region_id, db_context)
         {
         }
 

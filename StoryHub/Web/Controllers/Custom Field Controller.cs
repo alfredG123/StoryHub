@@ -2,6 +2,7 @@
 using Web.Data;
 using Web.Data.CustomFields;
 using Web.Data.ID;
+using Web.Data.Stories;
 using Web.Miscellaneous;
 using Web.Models;
 using X.PagedList;
@@ -14,7 +15,7 @@ namespace Web.Controllers
         private readonly MiscellaneousController _miscellaneous_controller;
 
         // Related story
-        private static int _story_id;
+        private static StoryID _story_id = new();
 
         // Paging variables
         private static int _page_number_for_custom_field_data_list_page = 1;
@@ -30,11 +31,17 @@ namespace Web.Controllers
         {
             CustomFieldDataList? custom_field_data_list = null;
 
+            // Record the story
+            if (story_id != null)
+            {
+                _story_id = new StoryID((int)story_id);
+            }
+
             // If the custom field data list is not retrieve yet, load all the custom field data from the database
             if (custom_field_data_list == null)
             {
                 // Load all the custom field data from the database
-                custom_field_data_list = new(_db_context);
+                custom_field_data_list = new(_story_id, _db_context);
             }
 
             // If the page number is not specified, use the last stored page number
@@ -46,13 +53,7 @@ namespace Web.Controllers
             // Adjust the page number to fit the list, and store the page number in case the page refresh due to actions such as deletion
             _page_number_for_custom_field_data_list_page = GlobalMethods.GetValidPageNumber(page_number, custom_field_data_list.Count);
 
-            // Record the story
-            if (story_id != null)
-            {
-                _story_id = (int)story_id;
-            }
-
-            this.ViewBag.StoryID = _story_id;
+            this.ViewBag.StoryID = _story_id.Value;
 
             return View(GlobalWebPages.CUSTOM_FIELD_LIST_PAGE, custom_field_data_list.ToPagedList(_page_number_for_custom_field_data_list_page, GlobalMethods.PAGE_SIZE));
         }
@@ -79,6 +80,12 @@ namespace Web.Controllers
 
             // Delete the custom field from the database
             custom_field_data.Delete(_db_context);
+
+            // Delete the custom field from story links
+            StoryCustomFieldLinks story_custom_field_links = new(_story_id, _db_context);
+            int item_index = story_custom_field_links.IndexOfID(id);
+            story_custom_field_links.Delete(item_index);
+            story_custom_field_links.Save(_db_context);
 
             _miscellaneous_controller.DisplaySuccessMessage("Custom Field is deleted successfully.", TempData);
 
@@ -136,6 +143,11 @@ namespace Web.Controllers
 
             // Save the custom field
             custom_field_data.Save(_db_context);
+
+            // Add the association between story and custom field
+            StoryCustomFieldLinks story_custom_field_links = new(_story_id, _db_context);
+            story_custom_field_links.Add(_story_id, custom_field_data.CustomFieldID);
+            story_custom_field_links.Save(_db_context);
 
             // Create a pop-up message to notify the user
             _miscellaneous_controller.DisplaySuccessMessage("The custom field is saved!", TempData);

@@ -1,4 +1,5 @@
 ﻿using Web.Data.ID;
+using Web.Data.Stories;
 using Web.Models;
 
 namespace Web.Data.References
@@ -7,13 +8,18 @@ namespace Web.Data.References
     public class ReferenceDataList
     : BaseDataList<ReferenceID, ReferenceData>
     {
+        private readonly StoryID _story_id = new();
+
         /// <summary>
-        /// Retrieve all reference data from the database
+        /// Retrieve all reference data from the database for the story
         /// </summary>
+        /// <param name="story_id"></param>
         /// <param name="db_context"></param>
-        public ReferenceDataList(ProgramDbContext db_context)
+        public ReferenceDataList(StoryID story_id, ProgramDbContext db_context)
             : base()
         {
+            _story_id = story_id;
+
             RetrieveData(db_context);
         }
 
@@ -36,9 +42,17 @@ namespace Web.Data.References
             // NOTE: Close the connection first by using ToList() instead iterating db_context.ReferenceData
             List<ReferenceDataModel> reference_data_model_list = db_context.ReferenceData.ToList();
 
-            foreach (ReferenceDataModel reference_data_model in reference_data_model_list)
+            if (_story_id.IsSet)
             {
-                this.Add(new ReferenceData(reference_data_model));
+                StoryReferenceLinks story_reference_links = new(_story_id, db_context);
+
+                foreach (ReferenceDataModel reference_data_model in reference_data_model_list)
+                {
+                    if (story_reference_links.IndexOfID(new ReferenceID(reference_data_model.ID)) != -1)
+                    {
+                        this.Add(new ReferenceData(reference_data_model));
+                    }
+                }
             }
         }
     }

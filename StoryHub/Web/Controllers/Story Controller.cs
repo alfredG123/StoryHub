@@ -13,6 +13,9 @@ namespace Web.Controllers
         private readonly ProgramDbContext _db_context;
         private readonly MiscellaneousController _miscellaneous_controller;
 
+        // Lists
+        private static StoryDataList? _story_data_list = null;
+
         // Paging variables
         private static int _page_number_for_story_data_list_page = 1;
 
@@ -25,7 +28,7 @@ namespace Web.Controllers
         #region "Story List"
         public IActionResult Index(int? page_number)
         {
-            StoryDataList? story_data_list = null;
+            StoryDataList? story_data_list = _story_data_list;
 
             // If the story data list is not retrieve yet, load all the story data from the database
             if (story_data_list == null)
@@ -68,6 +71,9 @@ namespace Web.Controllers
 
             // Delete the story from the database
             story_data.Delete(_db_context);
+
+            // Reset lists
+            _story_data_list = null;
 
             _miscellaneous_controller.DisplaySuccessMessage("Story is deleted successfully.", TempData);
 
@@ -125,6 +131,9 @@ namespace Web.Controllers
 
             // Save the story
             story_data.Save(_db_context);
+
+            // Reset lists
+            _story_data_list = null;
 
             // Create a pop-up message to notify the user
             _miscellaneous_controller.DisplaySuccessMessage("The story is saved!", TempData);

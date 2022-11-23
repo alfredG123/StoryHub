@@ -17,6 +17,9 @@ namespace Web.Controllers
         // Related story
         private static StoryID _story_id = new();
 
+        // Lists
+        private static CharacterDataList? _character_data_list = null;
+
         // Paging variables
         private static int _page_number_for_character_data_list_page = 1;
 
@@ -29,12 +32,15 @@ namespace Web.Controllers
         #region "Character List"
         public IActionResult Index(int? story_id, int? page_number)
         {
-            CharacterDataList? character_data_list = null;
+            CharacterDataList? character_data_list = _character_data_list;
 
             // Record the story
             if (story_id != null)
             {
                 _story_id = new StoryID((int)story_id);
+
+                // Reset the list for the new story
+                character_data_list = null;
             }
 
             // If the character data list is not retrieve yet, load all the character data from the database
@@ -80,6 +86,9 @@ namespace Web.Controllers
 
             // Delete the character from the database
             character_data.Delete(_db_context);
+
+            // Reset lists
+            _character_data_list = null;
 
             // Delete the character from story links
             StoryCharacterLinks story_character_links = new(_story_id, _db_context);
@@ -147,6 +156,9 @@ namespace Web.Controllers
             StoryCharacterLinks story_character_links = new(_story_id, _db_context);
             story_character_links.Add(_story_id, character_data.CharacterID);
             story_character_links.Save(_db_context);
+
+            // Reset lists
+            _character_data_list = null;
 
             // Create a pop-up message to notify the user
             _miscellaneous_controller.DisplaySuccessMessage("The character is saved!", TempData);

@@ -17,6 +17,9 @@ namespace Web.Controllers
         // Related story
         private static StoryID _story_id = new();
 
+        // Lists
+        private static RegionDataList? _region_data_list = null;
+
         // Paging variables
         private static int _page_number_for_region_data_list_page = 1;
 
@@ -29,12 +32,15 @@ namespace Web.Controllers
         #region "Region List"
         public IActionResult Index(int? story_id, int? page_number)
         {
-            RegionDataList? region_data_list = null;
+            RegionDataList? region_data_list = _region_data_list;
 
             // Record the story
             if (story_id != null)
             {
                 _story_id = new StoryID((int)story_id);
+
+                // Reset the list for the new story
+                region_data_list = null;
             }
 
             // If the region data list is not retrieve yet, load all the region data from the database
@@ -80,6 +86,9 @@ namespace Web.Controllers
 
             // Delete the region from the database
             region_data.Delete(_db_context);
+
+            // Reset lists
+            _region_data_list = null;
 
             // Delete the region from story links
             StoryRegionLinks story_region_links = new(_story_id, _db_context);
@@ -143,6 +152,9 @@ namespace Web.Controllers
 
             // Save the region
             region_data.Save(_db_context);
+
+            // Reset lists
+            _region_data_list = null;
 
             // Add the association between story and region
             StoryRegionLinks story_region_links = new(_story_id, _db_context);

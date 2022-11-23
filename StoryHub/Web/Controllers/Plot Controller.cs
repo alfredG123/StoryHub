@@ -17,6 +17,9 @@ namespace Web.Controllers
         // Related story
         private static StoryID _story_id = new();
 
+        // Lists
+        private static PlotDataList? _plot_data_list = null;
+
         // Paging variables
         private static int _page_number_for_plot_data_list_page = 1;
 
@@ -29,12 +32,15 @@ namespace Web.Controllers
         #region "Plot List"
         public IActionResult Index(int? story_id, int? page_number)
         {
-            PlotDataList? plot_data_list = null;
+            PlotDataList? plot_data_list = _plot_data_list;
 
             // Record the story
             if (story_id != null)
             {
                 _story_id = new StoryID((int)story_id);
+
+                // Reset the list for the new story
+                plot_data_list = null;
             }
 
             // If the plot data list is not retrieve yet, load all the plot data from the database
@@ -80,6 +86,9 @@ namespace Web.Controllers
 
             // Delete the plot from the database
             plot_data.Delete(_db_context);
+
+            // Reset lists
+            _plot_data_list = null;
 
             // Delete the plot from story links
             StoryPlotLinks story_plot_links = new(_story_id, _db_context);
@@ -143,6 +152,9 @@ namespace Web.Controllers
 
             // Save the plot
             plot_data.Save(_db_context);
+
+            // Reset lists
+            _plot_data_list = null;
 
             // Add the association between story and plot
             StoryPlotLinks story_plot_links = new(_story_id, _db_context);

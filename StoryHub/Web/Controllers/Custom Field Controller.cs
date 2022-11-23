@@ -17,6 +17,9 @@ namespace Web.Controllers
         // Related story
         private static StoryID _story_id = new();
 
+        // Lists
+        private static CustomFieldDataList? _custom_field_data_list = null;
+
         // Paging variables
         private static int _page_number_for_custom_field_data_list_page = 1;
 
@@ -29,12 +32,15 @@ namespace Web.Controllers
         #region "Custom Field List"
         public IActionResult Index(int? story_id, int? page_number)
         {
-            CustomFieldDataList? custom_field_data_list = null;
+            CustomFieldDataList? custom_field_data_list = _custom_field_data_list;
 
             // Record the story
             if (story_id != null)
             {
                 _story_id = new StoryID((int)story_id);
+
+                // Reset the list for the new story
+                custom_field_data_list = null;
             }
 
             // If the custom field data list is not retrieve yet, load all the custom field data from the database
@@ -80,6 +86,9 @@ namespace Web.Controllers
 
             // Delete the custom field from the database
             custom_field_data.Delete(_db_context);
+
+            // Reset lists
+            _custom_field_data_list = null;
 
             // Delete the custom field from story links
             StoryCustomFieldLinks story_custom_field_links = new(_story_id, _db_context);
@@ -143,6 +152,9 @@ namespace Web.Controllers
 
             // Save the custom field
             custom_field_data.Save(_db_context);
+
+            // Reset lists
+            _custom_field_data_list = null;
 
             // Add the association between story and custom field
             StoryCustomFieldLinks story_custom_field_links = new(_story_id, _db_context);

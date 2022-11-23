@@ -17,6 +17,9 @@ namespace Web.Controllers
         // Related story
         private static StoryID _story_id = new();
 
+        // Lists
+        private static ReferenceDataList? _reference_data_list = null;
+
         // Paging variables
         private static int _page_number_for_reference_data_list_page = 1;
 
@@ -29,12 +32,15 @@ namespace Web.Controllers
         #region "Reference List"
         public IActionResult Index(int? story_id, int? page_number)
         {
-            ReferenceDataList? reference_data_list = null;
+            ReferenceDataList? reference_data_list = _reference_data_list;
 
             // Record the story
             if (story_id != null)
             {
                 _story_id = new StoryID((int)story_id);
+
+                // Reset the list for the new story
+                reference_data_list = null;
             }
 
             // If the reference data list is not retrieve yet, load all the reference data from the database
@@ -86,6 +92,9 @@ namespace Web.Controllers
 
             // Delete the reference from the database
             reference_data.Delete(_db_context);
+
+            // Reset lists
+            _reference_data_list = null;
 
             _miscellaneous_controller.DisplaySuccessMessage("Reference is deleted successfully.", TempData);
 
@@ -143,6 +152,9 @@ namespace Web.Controllers
 
             // Save the reference
             reference_data.Save(_db_context);
+
+            // Reset lists
+            _reference_data_list = null;
 
             // Add the association between story and reference
             StoryReferenceLinks story_reference_links = new(_story_id, _db_context);

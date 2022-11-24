@@ -47,6 +47,11 @@ namespace Web.Data
         public DbSet<ReferenceDataModel> ReferenceData { get; set; }
 
         /// <summary>
+        /// Set up database table, Timeline Data
+        /// </summary>
+        public DbSet<TimelineDataModel> TimelineData { get; set; }
+
+        /// <summary>
         ///  Set up database table, Character Reference Link Item
         /// </summary>
         public DbSet<CharacterReferenceLinkItemModel> CharacterReferenceLinkItem { get; set; }
@@ -105,5 +110,15 @@ namespace Web.Data
         ///  Set up database table, Story Reference Link Item
         /// </summary>
         public DbSet<StoryReferenceLinkItemModel> StoryReferenceLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Story Timeline Link Item
+        /// </summary>
+        public DbSet<StoryTimelineLinkItemModel> StoryTimelineLinkItem { get; set; }
+
+        /// <summary>
+        ///  Set up database table, Timeline Plot Link Item
+        /// </summary>
+        public DbSet<TimelinePlotLinkItemModel> TimelinePlotLinkItem { get; set; }
     }
 }

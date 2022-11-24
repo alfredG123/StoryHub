@@ -13,17 +13,20 @@
         public readonly static DataIDType PlotData = new(5, "Plot Data");
         public readonly static DataIDType CustomFieldData = new(6, "Custom Field Data");
         public readonly static DataIDType CharacterReferenceLinkItem = new(7, "Character Reference Link Item");
-        public readonly static DataIDType PlotCharacterLinkItem = new (8, "Plot Character Link Item");
+        public readonly static DataIDType PlotCharacterLinkItem = new(8, "Plot Character Link Item");
         public readonly static DataIDType PlotPlotLinkItem = new(9, "Plot Plot Link Item");
-        public readonly static DataIDType PlotRegionLinkItem = new (10, "Plot Region Link Item");
-        public readonly static DataIDType RegionCharacterLinkItem = new (11, "Region Character Link Item");
-        public readonly static DataIDType RegionReferenceLinkItem = new (12, "Region Reference Link Item");
-        public readonly static DataIDType RegionRegionLinkItem = new (13, "Region Region Link Item");
-        public readonly static DataIDType StoryCharacterLinkItem = new (14, "Story Character Link Item");
+        public readonly static DataIDType PlotRegionLinkItem = new(10, "Plot Region Link Item");
+        public readonly static DataIDType RegionCharacterLinkItem = new(11, "Region Character Link Item");
+        public readonly static DataIDType RegionReferenceLinkItem = new(12, "Region Reference Link Item");
+        public readonly static DataIDType RegionRegionLinkItem = new(13, "Region Region Link Item");
+        public readonly static DataIDType StoryCharacterLinkItem = new(14, "Story Character Link Item");
         public readonly static DataIDType StoryCustomFieldLinkItem = new(15, "Story Custom Field Link Item");
-        public readonly static DataIDType StoryPlotLinkItem = new (16, "Story Plot Link Item");
-        public readonly static DataIDType StoryRegionLinkItem = new (17, "Story Region Link Item");
-        public readonly static DataIDType StoryReferenceLinkItem = new(17, "Story Reference Link Item");
+        public readonly static DataIDType StoryPlotLinkItem = new(16, "Story Plot Link Item");
+        public readonly static DataIDType StoryRegionLinkItem = new(17, "Story Region Link Item");
+        public readonly static DataIDType StoryReferenceLinkItem = new(18, "Story Reference Link Item");
+        public readonly static DataIDType TimelineData = new(18, "Timeline Data");
+        public readonly static DataIDType StoryTimelineLinkItem = new(19, "Story Timeline Link Item");
+        public readonly static DataIDType TimelinePlotLinkItem = new(20, "Timeline Plot Link Item");
 
         /// <summary>
         /// Create a new data ID type

@@ -1,61 +1,56 @@
 ﻿using Web.Data.ID;
 using Web.Models;
 
-namespace Web.Data.Stories
+namespace Web.Data.Timeline
 {
     [Serializable()]
-    public class StoryData : BaseDatabaseData
+    public class TimelineData : BaseDatabaseData
     {
         #region "Constructors"
         /// <summary>
-        /// Create a new story data
+        /// Create a new timeline data
         /// </summary>
-        public StoryData()
-            : base(new StoryID(), new StoryDataModel())
+        public TimelineData()
+            : base(new TimelineID(), new TimelineDataModel())
         {
         }
 
         /// <summary>
-        /// Retrieve the story data from the database by the story ID
+        /// Retrieve the timeline data from the database by the timeline ID
         /// </summary>
-        /// <param name="story_id"></param>
+        /// <param name="timeline_id"></param>
         /// <param name="db_context"></param>
-        public StoryData(StoryID story_id, ProgramDbContext db_context)
-            : base(story_id, db_context)
+        public TimelineData(TimelineID timeline_id, ProgramDbContext db_context)
+            : base(timeline_id, db_context)
         {
         }
 
         /// <summary>
-        /// Create a story data using the model
+        /// Create a timeline data using the model
         /// </summary>
-        /// <param name="story_data_model"></param>
-        public StoryData(StoryDataModel story_data_model)
-            : base(new StoryID(story_data_model.ID), story_data_model)
+        /// <param name="timeline_data_model"></param>
+        public TimelineData(TimelineDataModel timeline_data_model)
+            : base(new TimelineID(timeline_data_model.ID), timeline_data_model)
         {
         }
         #endregion
 
         #region Properties
         /// <summary>
-        /// Return the story ID
+        /// Return the timeline ID
         /// </summary>
-        public StoryID StoryID
+        public TimelineID TimelineID
         {
             get
             {
-                return (StoryID)this.ID;
+                return (TimelineID)this.ID;
             }
         }
 
         /// <summary>
-        /// Return the title of the story
+        /// Return the time of the time
         /// </summary>
-        public string Title { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Return the creation date of the story
-        /// </summary>
-        public DateTime CreationDate { get; set; } = DateTime.Now;
+        public string Time { get; set; } = string.Empty;
         #endregion
 
         /// <summary>
@@ -76,7 +71,7 @@ namespace Web.Data.Stories
             }
 
             // If the passed object is not BaseID, return the flag to indicate is is not the same as the current object
-            if (other_data is not StoryData story_data)
+            if (other_data is not TimelineData timeline_data)
             {
                 return (false);
             }
@@ -84,14 +79,7 @@ namespace Web.Data.Stories
             // Compare each property
             if (is_equal)
             {
-                if (this.Title != story_data.Title)
-                {
-                    is_equal = false;
-                }
-            }
-            if (is_equal)
-            {
-                if (this.CreationDate != story_data.CreationDate)
+                if (this.Time != timeline_data.Time)
                 {
                     is_equal = false;
                 }
@@ -111,14 +99,14 @@ namespace Web.Data.Stories
 
             this.ErrorMessage = String.Empty;
 
-            // Validate the story type
+            // Validate the timeline type
             if (is_valid)
             {
-                if (string.IsNullOrEmpty(this.Title))
+                if (string.IsNullOrEmpty(this.Time))
                 {
                     is_valid = false;
 
-                    this.ErrorMessage = "The title of the story is not set.";
+                    this.ErrorMessage = "The time of the timeline is not set.";
                 }
             }
 
@@ -131,7 +119,7 @@ namespace Web.Data.Stories
         /// <returns></returns>
         protected override BaseModel CreateEmptyModelObject()
         {
-            return (new StoryDataModel());
+            return (new TimelineDataModel());
         }
 
         /// <summary>
@@ -142,8 +130,8 @@ namespace Web.Data.Stories
         /// <returns></returns>
         protected override BaseModel? RetrieveModelObject(BaseID id, ProgramDbContext db_context)
         {
-            // Find the story from the database by the specifed ID
-            return (db_context.StoryData.Where(story_item => story_item.ID == id.Value).FirstOrDefault());
+            // Find the timeline from the database by the specifed ID
+            return (db_context.TimelineData.Where(timeline_time => timeline_time.ID == id.Value).FirstOrDefault());
         }
 
         /// <summary>
@@ -151,25 +139,23 @@ namespace Web.Data.Stories
         /// </summary>
         protected override void UpdateDataObject()
         {
-            StoryDataModel story_data_model = (StoryDataModel)this.BaseModel;
-            StoryID story_id = new(story_data_model.ID);
+            TimelineDataModel timeline_data_model = (TimelineDataModel)this.BaseModel;
+            TimelineID timeline_id = new(timeline_data_model.ID);
 
-            this.ID = story_id;
-            this.Title = story_data_model.Title;
-            this.CreationDate = story_data_model.CreationDate;
-            this.IsSet = story_id.IsSet;
+            this.ID = timeline_id;
+            this.Time = timeline_data_model.Time;
+            this.IsSet = timeline_id.IsSet;
         }
 
         /// <summary>
-        /// Update the story model with the data from the global variables
+        /// Update the timeline model with the data from the global variables
         /// </summary>
         protected override void UpdateModelObject()
         {
-            StoryDataModel story_data_model = (StoryDataModel)this.BaseModel;
+            TimelineDataModel timeline_data_model = (TimelineDataModel)this.BaseModel;
 
-            story_data_model.ID = this.StoryID.Value;
-            story_data_model.Title = this.Title;
-            story_data_model.CreationDate = this.CreationDate;
+            timeline_data_model.ID = this.TimelineID.Value;
+            timeline_data_model.Time = this.Time;
         }
     }
 }

@@ -1,0 +1,134 @@
+﻿@using Web.Data
+@using Web.Data.Timeline
+@using Web.Enumerations
+@using Web.Miscellaneous
+@using X.PagedList.Mvc.Core
+
+@model X.PagedList.IPagedList<TimelineData>
+
+@{
+    ViewData["Title"] = "Timelines";
+}
+
+<script type="text/javascript">
+
+    // Ask the user to confirm the deletion
+    function ComfirmDeletion(){
+        return (ConfirmAction("Are you sure you want to delete the timeline?"))
+    }
+
+</script>
+
+<h1>
+    @ViewData["Title"]
+</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-xl-2">
+        <div class="row">
+            @Html.ActionLink("Create New Timeline", "Create", "Timeline", new {}, new {
+            @class = "btn btn-primary"
+            })
+        </div>
+    </div>
+
+    <div style="width:3%;"></div>
+
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="row-number-column">
+                        Row #
+                    </th>
+                    <th>
+                        Title
+                    </th>
+                    <th class="action-buttons-column">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ((Model != null) && (Model.Count > 0))
+                {
+                    int row_number = 0;
+
+                    foreach (var timeline in Model)
+                    {
+                        row_number++;
+
+                        <tr>
+                            <td class="row-number-column">
+                                @GlobalMethods.GetRowNumberForPageNumber(row_number, Model.PageNumber)
+                            </td>
+                            <td>
+                                @timeline.Title
+                            </td>
+                            <td class="action-buttons-column">
+                                <div class="row">
+                                    @Html.ActionLink("View", "ViewContentMenu", "Timeline",
+                            new {
+                            @timeline_id = timeline.TimelineID.Value
+                            },
+                            new {
+                            @class = "btn btn-success"
+                            })
+                                </div>
+
+                                <div class="row">
+                                    @Html.ActionLink("Edit", "Edit", "Timeline",
+                            new {
+                            @timeline_id = timeline.TimelineID.Value
+                            },
+                            new {
+                            @class = "btn btn-primary"
+                            })
+                                </div>
+
+                                <div class="row">
+                                    @Html.ActionLink("Delete", "Delete", "Timeline",
+                            new {
+                            @timeline_id = timeline.TimelineID.Value,
+                            },
+                            new {
+                            @class = "btn btn-danger",
+                            @onclick="return ComfirmDeletion();"
+                            })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9">
+                            <label>
+                                There are no timelines.
+                            </label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model?.Count > 0)
+        {
+            <div class="row">
+                <div id="div_pager" class="col-xl-6">
+                    @Html.PagedListPager( Model, page_number => Url.Action("Index", new { page_number }), new X.PagedList.Web.Common.PagedListRenderOptions{
+                LiElementClasses = new [] { "page-item" },
+                PageClasses = new [] {"page-link"},
+                })
+                </div>
+
+                <div class="col-xl-6 text-end">
+                    @GlobalMethods.GetPagingText(Model?.PageNumber, Model?.PageCount)
+                </div>
+            </div>
+        }
+    </div>
+</div>

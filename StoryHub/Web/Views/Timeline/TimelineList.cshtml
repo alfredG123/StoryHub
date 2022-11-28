@@ -28,7 +28,7 @@
 <div class="row">
     <div class="col-xl-2">
         <div class="row">
-            @Html.ActionLink("Create New Timeline", "Create", "Timeline", new {}, new {
+            @Html.ActionLink("Create New Time", "Create", "Timeline", new {}, new {
             @class = "btn btn-primary"
             })
         </div>
@@ -44,7 +44,7 @@
                         Row #
                     </th>
                     <th>
-                        Title
+                        Time
                     </th>
                     <th class="action-buttons-column">
                         Actions
@@ -65,19 +65,9 @@
                                 @GlobalMethods.GetRowNumberForPageNumber(row_number, Model.PageNumber)
                             </td>
                             <td>
-                                @timeline.Title
+                                @timeline.Time
                             </td>
                             <td class="action-buttons-column">
-                                <div class="row">
-                                    @Html.ActionLink("View", "ViewContentMenu", "Timeline",
-                            new {
-                            @timeline_id = timeline.TimelineID.Value
-                            },
-                            new {
-                            @class = "btn btn-success"
-                            })
-                                </div>
-
                                 <div class="row">
                                     @Html.ActionLink("Edit", "Edit", "Timeline",
                             new {
@@ -130,5 +120,18 @@
                 </div>
             </div>
         }
+
+        <div class="row">
+            <div class="col">
+                @Html.ActionLink(
+                "Back", "ViewContentMenu", "Story",
+                new {
+                @story_id = ViewBag.StoryID,
+                },
+                new {
+                @class = "btn btn-secondary",
+                })
+            </div>
+        </div>
     </div>
 </div>

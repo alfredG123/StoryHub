@@ -35,6 +35,16 @@
     </div>
 
     <div class="row">
+        @Html.ActionLink("Timeline", "Index", "Timeline",
+        new {
+        @story_id=Model?.StoryID,
+        },
+        new {
+        @class = "btn btn-primary"
+        })
+    </div>
+
+    <div class="row">
         @Html.ActionLink("Plots", "Index", "Plot",
         new {
         @story_id=Model?.StoryID,

@@ -1,0 +1,105 @@
+﻿@using Web.Data
+@using Web.Data.General
+@using Web.Enumerations
+@using Web.Miscellaneous
+@using X.PagedList.Mvc.Core
+
+@model X.PagedList.IPagedList<SelectionData>
+
+@{
+    ViewData["Title"] = "Selection";
+}
+
+<h1>
+    @ViewData["Title"]
+</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="row-number-column">
+                        Row #
+                    </th>
+                    <th>
+                        Title
+                    </th>
+                    <th class="action-buttons-column">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ((Model != null) && (Model.Count > 0))
+                {
+                    int row_number = 0;
+
+                    foreach (var selection_data in Model)
+                    {
+                        row_number++;
+
+                        <tr>
+                            <td class="row-number-column">
+                                @GlobalMethods.GetRowNumberForPageNumber(row_number, Model.PageNumber)
+                            </td>
+                            <td>
+                                @selection_data.Title
+                            </td>
+                            <td class="action-buttons-column">
+                                <div class="row">
+                                    @Html.ActionLink("Select", "Select", "General",
+                            new {
+                            @timeline_id = selection_data.TimelineID.Value
+                            },
+                            new {
+                            @class = "btn btn-primary"
+                            })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9">
+                            <label>
+                                There are no items.
+                            </label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model?.Count > 0)
+        {
+            <div class="row">
+                <div id="div_pager" class="col-xl-6">
+                    @Html.PagedListPager( Model, page_number => Url.Action("Index", new { page_number }), new X.PagedList.Web.Common.PagedListRenderOptions{
+                LiElementClasses = new [] { "page-item" },
+                PageClasses = new [] {"page-link"},
+                })
+                </div>
+
+                <div class="col-xl-6 text-end">
+                    @GlobalMethods.GetPagingText(Model?.PageNumber, Model?.PageCount)
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col">
+                @Html.ActionLink(
+                "Back", ViewBag.PreviousPage, ViewBag.PreviousController,
+                new {},
+                new {
+                @class = "btn btn-secondary",
+                })
+            </div>
+        </div>
+    </div>
+</div>

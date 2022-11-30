@@ -108,7 +108,7 @@ namespace Web.Controllers
             // Create a new region data to set up the form
             RegionData region_data = new();
 
-            return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data));
+            return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data, _story_id, _db_context));
         }
 
         public IActionResult Edit(string? region_id)
@@ -131,7 +131,7 @@ namespace Web.Controllers
                 return View(GlobalWebPages.ERROR_PAGE, error_data);
             }
 
-            return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data));
+            return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data, _story_id, _db_context));
         }
 
         [HttpPost]
@@ -147,7 +147,7 @@ namespace Web.Controllers
                 _miscellaneous_controller.RaiseError(region_data.ErrorMessage, ModelState, TempData);
 
                 // Reload the detail page to enter the data again
-                return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data));
+                return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data, _story_id, _db_context));
             }
 
             // Save the region

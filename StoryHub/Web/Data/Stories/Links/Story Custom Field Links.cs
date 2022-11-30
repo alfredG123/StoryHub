@@ -8,7 +8,7 @@ namespace Web.Data.Stories
         : BaseLinks<StoryID, CustomFieldID>
     {
         /// <summary>
-        /// Retrieve all story character link items from database for the specified story
+        /// Retrieve all story custom field link items from database for the specified story
         /// </summary>
         /// <param name="story_id"></param>
         /// <param name="db_context"></param>
@@ -18,7 +18,7 @@ namespace Web.Data.Stories
         }
 
         /// <summary>
-        /// Retrieve all story character link items from database for the specified custom field
+        /// Retrieve all story custom field link items from database for the specified custom field
         /// </summary>
         /// <param name="custom_field_id"></param>
         /// <param name="db_context"></param>

@@ -8,13 +8,13 @@ namespace Web.Data.Plots
         : BaseLinks<PlotID, PlotID>
     {
         /// <summary>
-        /// Retrieve all plot plot link items from database
+        /// Retrieve all plot plot link items from database for the specified plot
         /// </summary>
         /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="plot_id"></param>
         /// <param name="db_context"></param>
-        public PlotPlotLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public PlotPlotLinks(LinkType link_type, PlotID plot_id, ProgramDbContext db_context)
+            : base(link_type, plot_id, db_context)
         {
         }
 

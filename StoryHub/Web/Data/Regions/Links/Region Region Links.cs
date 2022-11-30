@@ -8,13 +8,13 @@ namespace Web.Data.Regions
         : BaseLinks<RegionID, RegionID>
     {
         /// <summary>
-        /// Retrieve all region region link items from database
+        /// Retrieve all region region link items from database by the specified region
         /// </summary>
         /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="region_id"></param>
         /// <param name="db_context"></param>
-        public RegionRegionLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public RegionRegionLinks(LinkType link_type, RegionID region_id, ProgramDbContext db_context)
+            : base(link_type, region_id, db_context)
         {
         }
 

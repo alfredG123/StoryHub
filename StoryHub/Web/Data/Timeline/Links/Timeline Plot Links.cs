@@ -20,7 +20,7 @@ namespace Web.Data.Timeline
         /// <summary>
         /// Retrieve all timeline plot link items from database for the specified plot
         /// </summary>
-        /// <param name="region_id"></param>
+        /// <param name="plot_id"></param>
         /// <param name="db_context"></param>
         public TimelinePlotLinks(PlotID plot_id, ProgramDbContext db_context)
             : base(LinkType.ByRight, plot_id, db_context)

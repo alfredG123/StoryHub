@@ -8,13 +8,22 @@ namespace Web.Data.Plots
         : BaseLinks<PlotID, RegionID>
     {
         /// <summary>
-        /// Retrieve all plot region link items from database
+        /// Retrieve all plot region link items from database for the specified plot
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="plot_id"></param>
         /// <param name="db_context"></param>
-        public PlotRegionLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public PlotRegionLinks(PlotID plot_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, plot_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all plot region link items from database for the specified region
+        /// </summary>
+        /// <param name="region_id"></param>
+        /// <param name="db_context"></param>
+        public PlotRegionLinks(RegionID region_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, region_id, db_context)
         {
         }
 

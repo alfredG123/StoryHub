@@ -8,13 +8,22 @@ namespace Web.Data.Plots
         : BaseLinks<PlotID, CharacterID>
     {
         /// <summary>
-        /// Retrieve all plot character link items from database
+        /// Retrieve all plot character link items from database for the specified plot
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="plot_id"></param>
         /// <param name="db_context"></param>
-        public PlotCharacterLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public PlotCharacterLinks(PlotID plot_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, plot_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all plot character link items from database for the specified character
+        /// </summary>
+        /// <param name="character_id"></param>
+        /// <param name="db_context"></param>
+        public PlotCharacterLinks(CharacterID character_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, character_id, db_context)
         {
         }
 

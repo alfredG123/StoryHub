@@ -8,13 +8,22 @@ namespace Web.Data.Characters
         : BaseLinks<CharacterID, ReferenceID>
     {
         /// <summary>
-        /// Retrieve all character reference link items from database
+        /// Retrieve all character reference link items from database for the specified character
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="character_id"></param>
         /// <param name="db_context"></param>
-        public CharacterReferenceLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public CharacterReferenceLinks(CharacterID character_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, character_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all character reference link items from database for the specified reference
+        /// </summary>
+        /// <param name="reference_id"></param>
+        /// <param name="db_context"></param>
+        public CharacterReferenceLinks(ReferenceID reference_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, reference_id, db_context)
         {
         }
 

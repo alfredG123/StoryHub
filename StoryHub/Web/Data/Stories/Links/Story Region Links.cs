@@ -8,7 +8,7 @@ namespace Web.Data.Stories
         : BaseLinks<StoryID, RegionID>
     {
         /// <summary>
-        /// Retrieve all story character link items from database for the specified story
+        /// Retrieve all story region link items from database for the specified story
         /// </summary>
         /// <param name="story_id"></param>
         /// <param name="db_context"></param>
@@ -18,7 +18,7 @@ namespace Web.Data.Stories
         }
 
         /// <summary>
-        /// Retrieve all story character link items from database for the specified region
+        /// Retrieve all story region link items from database for the specified region
         /// </summary>
         /// <param name="region_id"></param>
         /// <param name="db_context"></param>

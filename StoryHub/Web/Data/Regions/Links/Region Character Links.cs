@@ -8,13 +8,22 @@ namespace Web.Data.Regions
         : BaseLinks<RegionID, CharacterID>
     {
         /// <summary>
-        /// Retrieve all region character link items from database
+        /// Retrieve all region character link items from database for the specified region
         /// </summary>
-        /// <param name="link_type"></param>
-        /// <param name="id"></param>
+        /// <param name="region_id"></param>
         /// <param name="db_context"></param>
-        public RegionCharacterLinks(LinkType link_type, BaseID id, ProgramDbContext db_context)
-            : base(link_type, id, db_context)
+        public RegionCharacterLinks(RegionID region_id, ProgramDbContext db_context)
+            : base(LinkType.ByLeft, region_id, db_context)
+        {
+        }
+
+        /// <summary>
+        /// Retrieve all region character link items from database for the specified character
+        /// </summary>
+        /// <param name="character_id"></param>
+        /// <param name="db_context"></param>
+        public RegionCharacterLinks(CharacterID character_id, ProgramDbContext db_context)
+            : base(LinkType.ByRight, character_id, db_context)
         {
         }
 

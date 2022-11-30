@@ -8,7 +8,7 @@ namespace Web.Data.Stories
         : BaseLinks<StoryID, PlotID>
     {
         /// <summary>
-        /// Retrieve all story character link items from database for the specified story
+        /// Retrieve all story plot link items from database for the specified story
         /// </summary>
         /// <param name="story_id"></param>
         /// <param name="db_context"></param>
@@ -18,7 +18,7 @@ namespace Web.Data.Stories
         }
 
         /// <summary>
-        /// Retrieve all story character link items from database for the specified plot
+        /// Retrieve all story plot link items from database for the specified plot
         /// </summary>
         /// <param name="plot_id"></param>
         /// <param name="db_context"></param>

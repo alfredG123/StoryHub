@@ -52,7 +52,7 @@
                                 <div class="row">
                                     @Html.ActionLink("Select", "Select", "General",
                             new {
-                            @timeline_id = selection_data.TimelineID.Value
+                            @id = selection_data.ID.Value
                             },
                             new {
                             @class = "btn btn-primary"
@@ -94,8 +94,11 @@
         <div class="row">
             <div class="col">
                 @Html.ActionLink(
-                "Back", ViewBag.PreviousPage, ViewBag.PreviousController,
-                new {},
+                "Back","Back", "General",
+                new {
+                @previous_page = ViewBag.PreviousPage,
+                @previous_controller = ViewBag.PreviousController,
+                },
                 new {
                 @class = "btn btn-secondary",
                 })

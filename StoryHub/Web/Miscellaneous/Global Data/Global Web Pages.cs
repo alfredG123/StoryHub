@@ -14,11 +14,12 @@
         public const string REFERENCE_LIST_PAGE = "ReferenceList";
         public const string REGION_DETAIL_PAGE = "RegionDetail";
         public const string REGION_LIST_PAGE = "RegionList";
-        public const string TIMELINE_DETAIL_PAGE = "TimelineDetail";
-        public const string TIMELINE_LIST_PAGE = "TimelineList";
+        public const string SELECTION_LIST_PAGE = "SelectionList";
         public const string STORY_CONTENT_MENU_PAGE = "StoryContentMenu";
         public const string STORY_DETAIL_PAGE = "StoryDetail";
         public const string STORY_LIST_PAGE = "StoryList";
+        public const string TIMELINE_DETAIL_PAGE = "TimelineDetail";
+        public const string TIMELINE_LIST_PAGE = "TimelineList";
 
         // Actions
         public const string INDEX_ACTION = "Index";

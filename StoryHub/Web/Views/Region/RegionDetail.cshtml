@@ -59,7 +59,10 @@
             <div class="col">
                 @Html.ActionLink(
         "Select", "ViewSelection", "General",
-        new {},
+        new {
+        @previous_action = "Edit",
+        @previous_controller = "Region",
+        },
         new {
         @class = "btn btn-secondary",
         })

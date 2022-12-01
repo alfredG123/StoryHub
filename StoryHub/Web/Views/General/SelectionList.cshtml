@@ -50,7 +50,7 @@
                             </td>
                             <td class="action-buttons-column">
                                 <div class="row">
-                                    @Html.ActionLink("Select", "Select", "General",
+                                    @Html.ActionLink("Select", "SaveSelection", "General",
                             new {
                             @id = selection_data.ID.Value
                             },
@@ -94,11 +94,8 @@
         <div class="row">
             <div class="col">
                 @Html.ActionLink(
-                "Back","Back", "General",
-                new {
-                @previous_page = ViewBag.PreviousPage,
-                @previous_controller = ViewBag.PreviousController,
-                },
+                "Back","BackToPreviousPage", "General",
+                new {},
                 new {
                 @class = "btn btn-secondary",
                 })

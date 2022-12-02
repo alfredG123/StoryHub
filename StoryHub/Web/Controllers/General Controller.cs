@@ -9,7 +9,7 @@ namespace Web.Controllers
     public class GeneralController : Controller
     {
         private readonly ProgramDbContext _db_context;
-        
+
         // List
         private static SelectionList? _selection_list = null;
 
@@ -19,9 +19,7 @@ namespace Web.Controllers
         // Previous page information
         private static string _previous_action = string.Empty;
         private static string _previous_controller = string.Empty;
-
-        // Selection
-        private static int _selected_id = -1;
+        private static int _previous_id = -1;
 
         public GeneralController(ProgramDbContext db_context)
         {
@@ -38,7 +36,7 @@ namespace Web.Controllers
         }
 
         #region "Selection"
-        public IActionResult ViewSelection(string? previous_action, string? previous_controller, int? page_number)
+        public IActionResult ViewSelection(string? previous_action, string? previous_controller, int? previous_id, int? page_number)
         {
             // Throw errors, if the selection list is not set
             if (_selection_list == null)
@@ -59,6 +57,10 @@ namespace Web.Controllers
             {
                 _previous_controller = previous_controller;
             }
+            if (previous_id != null)
+            {
+                _previous_id = (int)previous_id;
+            }
 
             this.ViewBag.PreviousPage = previous_action;
             this.ViewBag.PreviousController = previous_controller;
@@ -66,17 +68,15 @@ namespace Web.Controllers
             return View(GlobalWebPages.SELECTION_LIST_PAGE, _selection_list.ToPagedList(_page_number_for_selection_list_page, GlobalMethods.PAGE_SIZE));
         }
 
-        public IActionResult SaveSelection(int id)
+        public IActionResult SaveSelection(int selected_id)
         {
-            _selected_id = id;
-
-            return RedirectToAction(_previous_action, _previous_controller);
+            return RedirectToAction(_previous_action, _previous_controller, new { id = selected_id });
         }
         #endregion
 
         public IActionResult BackToPreviousPage()
         {
-            return RedirectToAction(_previous_action, _previous_controller);
+            return RedirectToAction(_previous_action, _previous_controller, new { id = _previous_id });
         }
     }
 }

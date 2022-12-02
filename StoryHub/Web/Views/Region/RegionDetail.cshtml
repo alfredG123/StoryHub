@@ -60,8 +60,9 @@
                 @Html.ActionLink(
         "Select", "ViewSelection", "General",
         new {
-        @previous_action = "Edit",
+        @previous_action = "Select",
         @previous_controller = "Region",
+        @previous_id = Model.RegionID,
         },
         new {
         @class = "btn btn-secondary",

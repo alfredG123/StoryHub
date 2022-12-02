@@ -111,6 +111,11 @@ namespace Web.Controllers
             return View(GlobalWebPages.REGION_DETAIL_PAGE, RegionDetailViewModel.ConvertToRegionDetailViewModel(region_data, _story_id, _db_context));
         }
 
+        public IActionResult Select(string? id)
+        {
+            return Edit(id);
+        }
+
         public IActionResult Edit(string? region_id)
         {
             // Retrieve the ID from the form

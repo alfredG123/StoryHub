@@ -37,6 +37,42 @@
 
         <br />
 
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Description
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Description,
+        Model.Description,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Related URL
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.RelatedURL,
+        Model.RelatedURL,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
         @Html.HiddenFor(
         Model => Model.ReferenceID,
         Model.ReferenceID

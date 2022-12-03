@@ -17,6 +17,16 @@ namespace Web.Models
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
+        /// Return or set the description of the reference
+        /// </summary>
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Return or set the related URL of the reference
+        /// </summary>
+        public string RelatedURL { get; set; } = string.Empty;
+
+        /// <summary>
         /// Convert the reference data to the view model
         /// </summary>
         /// <param name="reference_data"></param>
@@ -28,6 +38,8 @@ namespace Web.Models
             // Set up the properties with the reference data
             reference_detail_view_model.ReferenceID = reference_data.ReferenceID.Value;
             reference_detail_view_model.Title = reference_data.Title;
+            reference_detail_view_model.Description = reference_data.Description;
+            reference_detail_view_model.RelatedURL = reference_data.RelatedURL;
 
             return (reference_detail_view_model);
         }
@@ -44,6 +56,8 @@ namespace Web.Models
 
             // Update the variables based on the data from the web page
             reference_data.Title = reference_detail_view_model.Title;
+            reference_data.Description = reference_detail_view_model.Description;
+            reference_data.RelatedURL = reference_detail_view_model.RelatedURL;
 
             return (reference_data);
         }

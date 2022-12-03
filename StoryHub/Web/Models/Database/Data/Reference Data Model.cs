@@ -9,5 +9,11 @@ namespace Web.Models
 
         [Required]
         public string Title { get; set; } = string.Empty;
+
+        [Required]
+        public string Description { get; set; } = string.Empty;
+
+        [Required]
+        public string RelatedURL { get; set; } = string.Empty;
     }
 }

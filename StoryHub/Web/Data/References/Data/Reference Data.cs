@@ -51,6 +51,16 @@ namespace Web.Data.References
         /// Return the title of the reference
         /// </summary>
         public string Title { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Return the description of the reference
+        /// </summary>
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Return the related URL of the reference
+        /// </summary>
+        public string RelatedURL { get; set; } = string.Empty;
         #endregion
 
         /// <summary>
@@ -80,6 +90,20 @@ namespace Web.Data.References
             if (is_equal)
             {
                 if (this.Title != reference_data.Title)
+                {
+                    is_equal = false;
+                }
+            }
+            if (is_equal)
+            {
+                if (this.Description != reference_data.Description)
+                {
+                    is_equal = false;
+                }
+            }
+            if (is_equal)
+            {
+                if (this.RelatedURL != reference_data.RelatedURL)
                 {
                     is_equal = false;
                 }
@@ -144,6 +168,8 @@ namespace Web.Data.References
 
             this.ID = reference_id;
             this.Title = reference_data_model.Title;
+            this.Description = reference_data_model.Description;
+            this.RelatedURL = reference_data_model.RelatedURL;
             this.IsSet = reference_id.IsSet;
         }
 
@@ -156,6 +182,8 @@ namespace Web.Data.References
 
             reference_data_model.ID = this.ReferenceID.Value;
             reference_data_model.Title = this.Title;
+            reference_data_model.Description = this.Description;
+            reference_data_model.RelatedURL = this.RelatedURL;
         }
     }
 }

@@ -44,6 +44,12 @@
                         Row #
                     </th>
                     <th>
+                        Drama Type
+                    </th>
+                    <th>
+                        Plot Type
+                    </th>
+                    <th>
                         Title
                     </th>
                     <th class="action-buttons-column">
@@ -63,6 +69,12 @@
                         <tr>
                             <td class="row-number-column">
                                 @GlobalMethods.GetRowNumberForPageNumber(row_number, Model.PageNumber)
+                            </td>
+                            <td>
+                                @plot.DramaType.Text
+                            </td>
+                            <td>
+                                @plot.PlotType.Text
                             </td>
                             <td>
                                 @plot.Title

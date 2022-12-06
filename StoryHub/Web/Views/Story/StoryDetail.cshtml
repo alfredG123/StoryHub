@@ -37,6 +37,24 @@
 
         <br />
 
+        <div class="row">
+            <label class="col-xl-2 label-text">
+                Introduction
+            </label>
+
+            <div class="col-xl-4">
+                @Html.TextBoxFor(
+        Model => Model.Introduction,
+        Model.Introduction,
+        new {
+        @class="form-control",
+        }
+        )
+            </div>
+        </div>
+
+        <br />
+
         @Html.HiddenFor(
         Model => Model.StoryID,
         Model.StoryID

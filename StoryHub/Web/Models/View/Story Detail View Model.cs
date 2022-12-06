@@ -17,6 +17,11 @@ namespace Web.Models
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
+        /// Return or set the introduction of the story
+        /// </summary>
+        public string Introduction { get; set; } = string.Empty;
+
+        /// <summary>
         /// Convert the story data to the view model
         /// </summary>
         /// <param name="story_data"></param>
@@ -28,6 +33,7 @@ namespace Web.Models
             // Set up the properties with the story data
             story_detail_view_model.StoryID = story_data.StoryID.Value;
             story_detail_view_model.Title = story_data.Title;
+            story_detail_view_model.Introduction = story_data.Introduction;
 
             return (story_detail_view_model);
         }
@@ -44,6 +50,7 @@ namespace Web.Models
 
             // Update the variables based on the data from the web page
             story_data.Title = story_detail_view_model.Title;
+            story_data.Introduction = story_detail_view_model.Introduction;
 
             return (story_data);
         }

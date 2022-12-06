@@ -12,5 +12,8 @@ namespace Web.Models
 
         [Required]
         public DateTime CreationDate { get; set; } = DateTime.Now;
+
+        [Required]
+        public string Introduction { get; set; } = string.Empty;
     }
 }

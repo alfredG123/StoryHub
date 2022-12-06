@@ -56,6 +56,11 @@ namespace Web.Data.Stories
         /// Return the creation date of the story
         /// </summary>
         public DateTime CreationDate { get; set; } = DateTime.Now;
+
+        /// <summary>
+        /// Return the introduction of the story
+        /// </summary>
+        public string Introduction { get; set; } = string.Empty;
         #endregion
 
         /// <summary>
@@ -92,6 +97,13 @@ namespace Web.Data.Stories
             if (is_equal)
             {
                 if (this.CreationDate != story_data.CreationDate)
+                {
+                    is_equal = false;
+                }
+            }
+            if (is_equal)
+            {
+                if (this.Introduction != story_data.Introduction)
                 {
                     is_equal = false;
                 }
@@ -157,6 +169,7 @@ namespace Web.Data.Stories
             this.ID = story_id;
             this.Title = story_data_model.Title;
             this.CreationDate = story_data_model.CreationDate;
+            this.Introduction = story_data_model.Introduction;
             this.IsSet = story_id.IsSet;
         }
 
@@ -170,6 +183,7 @@ namespace Web.Data.Stories
             story_data_model.ID = this.StoryID.Value;
             story_data_model.Title = this.Title;
             story_data_model.CreationDate = this.CreationDate;
+            story_data_model.Introduction = this.Introduction;
         }
     }
 }
